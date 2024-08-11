@@ -179,6 +179,17 @@ body {
     border-color: #4CAF50; /* Border color for selected style/color */
 }
 
+.style-option-container {
+    border: 2px solid transparent; /* Default border, not visible */
+    padding: 5px; /* Add some padding around the image */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.style-option-container.selected {
+    border-color: black; /* Black border for the selected item */
+}
+
+
 
 /* Delivery/Pickup Section */
 .delivery-pickup {
