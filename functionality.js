@@ -21,15 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // JavaScript to handle style image selection
-    document.querySelectorAll('.style-option').forEach(img => {
+    const styleOptions = document.querySelectorAll('.style-option');
+    styleOptions.forEach((img, index) => {
         img.addEventListener('click', () => {
             document.querySelectorAll('.styles li').forEach(li => li.classList.remove('selected'));
             img.parentElement.classList.add('selected');
 
-            const selectedStyle = img.getAttribute('data-style');
-            console.log('Selected style:', selectedStyle);
+            // Update main display image
+            const displayImage = document.querySelector('.product-image img');
+            displayImage.src = img.src; // Set the main display image to the clicked style image
         });
     });
+
+    // Ensure the first style image is selected by default
+    if (styleOptions.length > 0) {
+        const firstStyleOption = styleOptions[0];
+        firstStyleOption.parentElement.classList.add('selected');
+        document.querySelector('.product-image img').src = firstStyleOption.src;
+    }
 
     // JavaScript to handle Add to Cart button
     document.querySelectorAll('.add-to-cart').forEach(button => {
@@ -47,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const productImage = productItem.querySelector('.product-image img')?.src;
             const productPrice = productItem.querySelector('.price')?.textContent;
             const selectedColor = document.querySelector('.color-button.selected')?.getAttribute('data-color') || '';
+            const selectedStyleIndex = [...document.querySelectorAll('.style-option')].indexOf(document.querySelector('.styles li.selected .style-option')) + 1;
+            const styleIdentifier = selectedStyleIndex ? `-S${selectedStyleIndex}` : '';
 
             console.log('Product Name:', productName);
             console.log('Product Image:', productImage);
@@ -64,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Check for duplicate items with same color and style
             cartItems.forEach(item => {
-                if (item.name === productName && item.color === selectedColor) {
+                if (item.name === productName + styleIdentifier && item.color === selectedColor) {
                     item.quantity += 1;
                     itemFound = true;
                 }
@@ -73,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!itemFound) {
                 // Add new item to cart
                 cartItems.push({
-                    name: productName,
+                    name: productName + styleIdentifier,
                     image: productImage,
                     price: productPrice,
                     color: selectedColor,
@@ -118,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h4>${item.name}</h4>
                             <p class="price">${item.price}</p>
                         </div>
-                        <p class="color-display" style="background-color: ${item.color}; width: 20px; height: 20px; display: inline-block;"></p>
+                        <p class="style-display">${item.style ? `Style: ${item.style}` : ''}</p>
                         <div class="quantity-controls">
                             <button class="quantity-minus">-</button>
                             <input type="text" class="quantity-input" value="${item.quantity}" readonly>
@@ -134,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Handle delete button
             cartItem.querySelector('.delete-btn').addEventListener('click', () => {
-                const updatedCartItems = cartItems.filter(cartItem => cartItem.name !== item.name || cartItem.color !== item.color);
+                const updatedCartItems = cartItems.filter(cartItem => cartItem.name !== item.name || cartItem.style !== item.style);
                 localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
                 updateCartDisplay(); // Update display
                 updateCartBadge(); // Update badge after removal
@@ -176,8 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update the cart badge count
     function updateCartBadge() {
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        const uniqueItemsCount = new Set(cartItems.map(item => `${item.name}-${item.color}`)).size; // Count unique items
-        document.getElementById('cart-badge').textContent = uniqueItemsCount;
+        console.log('Cart Items:', cartItems); // Debugging line to check cart items
+        // Create a Set to track unique item names with color and style
+        const uniqueItems = new Set(cartItems.map(item => `${item.name}-${item.color}`));
+        document.getElementById('cart-badge').textContent = uniqueItems.size;
     }
 
     // JavaScript to handle Buy Now button
@@ -204,65 +217,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.search-bar button').addEventListener('click', () => {
         const searchQuery = document.querySelector('.search-bar input').value.trim();
         if (searchQuery) {
-            window.location.href = `search-results.html?query=${encodeURIComponent(searchQuery)}`;
+            window.location.href = `search.html?query=${encodeURIComponent(searchQuery)}`;
         }
     });
 
-    // Optional: Handle Enter key press for search functionality
-    document.querySelector('.search-bar input').addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent form submission
-            const searchQuery = event.target.value.trim();
-            if (searchQuery) {
-                window.location.href = `search-results.html?query=${encodeURIComponent(searchQuery)}`;
-            }
-        }
-    });
-
-    // JavaScript to handle displaying search results based on query parameter
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get('query');
-
-    if (query) {
-        const searchResults = document.querySelector('.search-results');
-        if (searchResults) {
-            searchResults.textContent = `Results for: ${query}`;
-            // Perform actual search logic here
-        }
-    }
-
-    // Adjust spacing for cart items and buttons
-    function adjustSpacing() {
-        const cartItems = document.querySelectorAll('.cart-item');
-        const totalSection = document.querySelector('.cart-content .total-section');
-        const continueShoppingBtn = document.querySelector('.continue-shopping');
-        const proceedToCheckoutBtn = document.querySelector('.proceed-to-checkout');
-
-        if (cartItems.length > 0) {
-            const lastItem = cartItems[cartItems.length - 1];
-            const itemBottom = lastItem.getBoundingClientRect().bottom;
-            const totalSectionTop = totalSection.getBoundingClientRect().top;
-            const continueShoppingBtnTop = continueShoppingBtn.getBoundingClientRect().top;
-
-            const distanceToItem = continueShoppingBtnTop - itemBottom;
-
-            if (distanceToItem < 0.4 * (continueShoppingBtn.offsetHeight)) {
-                const adjustAmount = 0.4 * (continueShoppingBtn.offsetHeight) - distanceToItem;
-                totalSection.style.marginTop = `${adjustAmount}px`;
-            }
-        }
-    }
-
-    window.addEventListener('load', () => {
-        document.querySelectorAll('.style-option img, .color-button img').forEach(img => {
-            img.style.width = '60px'; // Ensure width
-            img.style.height = '60px'; // Ensure height
-        });
-
-        updateCartBadge(); // Initial badge update
-        updateCartDisplay(); // Initial cart display update
-    });
-
-    window.addEventListener('resize', adjustSpacing);
-    adjustSpacing();
+    // Update cart badge on page load
+    updateCartBadge();
 });
