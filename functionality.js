@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Handle delete button
             cartItem.querySelector('.delete-btn').addEventListener('click', () => {
-                const updatedCartItems = cartItems.filter(cartItem => cartItem.name !== item.name || cartItem.style !== item.style);
+                const updatedCartItems = cartItems.filter(cartItem => cartItem.name !== item.name || cartItem.color !== item.color);
                 localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
                 updateCartDisplay(); // Update display
                 updateCartBadge(); // Update badge after removal
@@ -154,15 +154,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Handle quantity controls
             const quantityInput = cartItem.querySelector('.quantity-input');
             cartItem.querySelector('.quantity-plus').addEventListener('click', () => {
-                quantityInput.value = parseInt(quantityInput.value) + 1;
-                updateCartTotal(); // Update total when quantity changes
+                const newQuantity = parseInt(quantityInput.value) + 1;
+                quantityInput.value = newQuantity;
+                updateCartQuantity(item.name, item.color, newQuantity);
             });
 
             cartItem.querySelector('.quantity-minus').addEventListener('click', () => {
                 const currentValue = parseInt(quantityInput.value);
                 if (currentValue > 1) {
-                    quantityInput.value = currentValue - 1;
-                    updateCartTotal(); // Update total when quantity changes
+                    const newQuantity = currentValue - 1;
+                    quantityInput.value = newQuantity;
+                    updateCartQuantity(item.name, item.color, newQuantity);
                 }
             });
         });
@@ -193,6 +195,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('cart-badge').textContent = uniqueItems.size;
     }
 
+    // Function to update cart quantity
+    function updateCartQuantity(name, color, quantity) {
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        cartItems = cartItems.map(item => {
+            if (item.name === name && item.color === color) {
+                return { ...item, quantity: quantity };
+            }
+            return item;
+        });
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        updateCartDisplay(); // Ensure the cart display is updated
+    }
+
     // JavaScript to handle Buy Now button
     document.querySelectorAll('.buy-now').forEach(button => {
         button.addEventListener('click', () => {
@@ -221,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Update cart badge on page load
+    // Update cart badge and display on page load
     updateCartBadge();
+    updateCartDisplay(); // Ensure cart items are displayed
 });
