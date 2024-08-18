@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    /* Custom Styles for Product Cards */
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem; /* Space between cards */
+    }
+
+    /* Individual Product Item */
+    .product-item {
+        border: 1px solid #ddd; /* Border color */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        overflow: hidden; /* Ensure content stays within the card */
+        background-color: #fff; /* Card background color */
+        transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+        text-align: center; /* Center text inside the card */
+        display: flex;
+        flex-direction: column; /* Stack child elements vertically */
+        justify-content: space-between; /* Space out the content */
+    }
+
+    .product-item:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+        transform: translateY(-5px); /* Slight lift effect on hover */
+    }
+
+    .product-item img {
+        width: 100%; /* Ensure the image fits the card width */
+        height: auto; /* Maintain aspect ratio */
+        max-height: 180px; /* Limit the image height */
+        object-fit: cover; /* Cover the image area */
+    }
+
+    .product-item h3 {
+        font-size: 1.2rem; /* Adjust font size for title */
+        margin: 0.5rem 0; /* Margin for spacing */
+    }
+
+    .product-item p {
+        font-size: 0.9rem; /* Adjust font size for description */
+        color: #555; /* Slightly darker text color */
+        margin-bottom: 0.5rem; /* Space between text elements */
+    }
+
+    .product-item .price {
+        font-size: 1.1rem; /* Adjust font size for price */
+        font-weight: bold; /* Make the price stand out */
+        color: #333; /* Darker color for better readability */
+        margin: 0.5rem 0; /* Margin for spacing */
+    }
+
+    .product-item .buy-button {
+        width: 100%; /* Make button full width */
+        padding: 0.5rem; /* Padding for better click area */
+        border: none; /* Remove default button border */
+        border-radius: 4px; /* Rounded corners */
+        background-color: #A97848; /* Primary color */
+        color: #fff; /* Button text color */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s ease; /* Smooth color transition */
+    }
+
+    .product-item .buy-button:hover {
+        background-color: #A9815E; /* Darker shade on hover */
+    }
+
+    .product-item a {
+        text-decoration: none; /* Remove underline from links */
+        color: inherit; /* Inherit color from parent */
+    }
+
+    /* Custom Styles for Categories */
+.categories-section {
+    margin-bottom: 2rem;
+}
+
+.categories-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.category-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.category-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Text color */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-box:hover {
+    background-color: #f8f9fa; /* Light background on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.category-box i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+.category-icon {
+    width: 60px; /* Adjust this value based on your icon size */
+    height: auto;
+    max-width: 100%;
+    max-height: 60px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.selected-category {
+    border: 2px solid black; /* Adds a black border when the category is selected */
+}
+
+
+.category-box p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center text-md-left">
+                    <div class="logo">
+                        <img src="images/logo1.png" alt="Sewn Elegance Logo" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <nav class="nav">
+                        <ul class="list-unstyled d-flex justify-content-center mb-0">
+                            <li class="mx-4"><a href="index.html">Home</a></li>
+                            <li class="mx-4"><a href="products.html">Products</a></li>
+                            <li class="mx-4"><a href="about.html">About Us</a></li>
+                            <li class="mx-4"><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-3 text-md-text-center">
+                    <div class="header-icons d-flex justify-content-end align-items-center">
+                        <!-- Icons -->
+                        <a href="user-profile.html" class="icon mx-2">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="order-status.html" class="icon mx-2">
+                            <i class="fas fa-truck"></i>
+                        </a>
+                        <a href="#" class="icon mx-2 cart-icon" id="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cart-badge"></span> <!-- Badge for item count -->
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="container mt-4">
+        <!-- Categories Section -->
+            <div class="categories-section">
+                <h2>Categories</h2>
+                <div class="category-boxes">
+                    <a href="headwear.html" class="category-box">
+                        <img src="images/Beanie.png" alt="Crochet Beanie Icon" class="category-icon"> <!-- Crochet Beanie icon -->
+                        <p>Headwear</p>
+                    </a>
+                    <a href="tops.html" class="category-box">
+                        <img src="images/Sweater.png" alt="Crochet Shirt Icon" class="category-icon"> <!-- Crochet shirt icon -->
+                        <p>Tops</p>
+                    </a>
+                    <a href="legs.html" class="category-box">
+                        <img src="images/Pants.png" alt="Crochet Pants Icon" class="category-icon"> <!-- Crochet pants icon -->
+                        <p>Legs</p>
+                    </a>
+                    <a href="Handwear.html" class="category-box">
+                        <img src="images/WinterGloves.png" alt="Crochet Mittens Icon" class="category-icon"> <!-- Mittens icon -->
+                        <p>Handwear</p>
+                    </a>
+                    <a href="sweaters.html" class="category-box">
+                        <img src="images/Muffler.png" alt="Crochet Scarf Icon" class="category-icon"> <!-- Crochet scarf icon -->
+                        <p>Scarves</p>
+                    </a>
+                    <a href="swimwear.html" class="category-box">
+                        <img src="images/BeachShorts.png" alt="Crochet Swimwear Icon" class="category-icon"> <!-- Swimwear icon -->
+                        <p>Swimwear</p>
+                    </a>
+                    <a href="undergarments.html" class="category-box">
+                        <img src="images/Underwear.png" alt="Crochet Undergarments Icon" class="category-icon"> <!-- Undergarment icon -->
+                        <p>Undergarments</p>
+                    </a>
+                    <a href="Footwear.html" class="category-box">
+                        <img src="images/Sock.png" alt="Crochet Socks Icon" class="category-icon"> <!-- Socks icon -->
+                        <p>Footwear</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar mb-4">
+            <input type="text" placeholder="Search..." aria-label="Search">
+            <button type="button" class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <!-- Products Grid -->
+        <h1 class="text-center mb-4">Our Products</h1>
+        <div class="row">
+            <!-- Example Product Item -->
+            <div class="col-md-3 mb-4">
+                <div class="product-item" data-category="headwear">
+                        <img src="images/product1.jpg" alt="Product Name" class="img-fluid">
+                        <h3>Product Name 1</h3>
+                        <p>Short description of the product.</p>
+                        <span class="price">$XX.XX</span>
+                        <a href="product-details.html" class="btn btn-primary buy-button">Buy Now</a>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="product-item" data-category="top">
+                        <img src="images/product2.jpg" alt="Product Name" class="img-fluid">
+                        <h3>Product Name 2</h3>
+                        <p>Short description of the product.</p>
+                        <span class="price">$XX.XX</span>
+                        <a href="product-details.html" class="btn btn-primary buy-button">Buy Now</a>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="product-item">
+                        <img src="images/product3.jpg" alt="Product Name" class="img-fluid">
+                        <h3>Product Name 3</h3>
+                        <p>Short description of the product.</p>
+                        <span class="price">$XX.XX</span>
+                        <a href="product-details.html" class="btn btn-primary buy-button">Buy Now</a>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="product-item">
+                        <img src="images/product4.jpg" alt="Product Name" class="img-fluid">
+                        <h3>Product Name 4</h3>
+                        <p>Short description of the product.</p>
+                        <span class="price">$XX.XX</span>
+                        <a href="product-details.html" class="btn btn-primary buy-button">Buy Now</a>
+                </div>
+            </div>
+            <!-- Add more product items as needed -->
+        </div>
+    </main>
+
+    <!-- Cart Section -->
+    <aside class="cart-section">
+        <!-- Cart Header -->
+        <div class="cart-header">
+            <h2>My Cart</h2>
+        </div>
+        <!-- Cart Main Area -->
+        <div class="cart-content">
+            <ul id="cart-items" class="list-unstyled">
+                <!-- Cart items will be dynamically added here -->
+            </ul>
+        </div>
+        <!-- Cart Footer -->
+        <div class="cart-footer">
+            <div class="total-section">
+                <h3>Total: <span id="cart-total">$0.00</span></h3>
+            </div>
+            <div class="cart-buttons">
+                <button class="btn btn-primary btn-lg continue-shopping" id="continue-shopping">Continue Shopping</button>
+                <button class="btn btn-danger btn-lg proceed-to-checkout" id="proceed-to-checkout">Proceed to Checkout</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Footer Section -->
+    <footer class="footer text-center py-3">
+        <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
+        <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="functionality.js"></script>
+</body>
+</html>

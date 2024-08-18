@@ -1,5 +1,6 @@
 /* Base Styles */
 body {
+    background-color: #FFFEF8;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -8,7 +9,7 @@ body {
 
 /* Header Styles */
 .header {
-    background-color: white;
+    background-color: #FFFEF8;
     color: black;
     padding: 10px 0;
     font-family: 'Atlantic BC', serif; /* Apply Atlantic BC font */

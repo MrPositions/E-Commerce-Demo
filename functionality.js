@@ -240,3 +240,52 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartBadge();
     updateCartDisplay(); // Ensure cart items are displayed
 });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const categoryBoxes = document.querySelectorAll('.category-box');
+    const productItems = document.querySelectorAll('.product-item');
+
+    categoryBoxes.forEach(box => {
+        box.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Remove the selected effect from all category boxes
+            categoryBoxes.forEach(box => {
+                box.classList.remove('selected-category');
+            });
+
+            // Add the selected effect to the clicked category box
+            this.classList.add('selected-category');
+
+            // Get the selected category
+            const category = this.querySelector('p').textContent.toLowerCase();
+
+            // Map categories to their respective tags
+            const categoryMap = {
+                'headwear': ['hat', 'beanie', 'headwear'],
+                'tops': ['top', 'shirt', 'sweater', 'jacket'],
+                'legs': ['pants', 'leggings', 'shorts'],
+                'handwear': ['gloves', 'mittens', 'handwear'],
+                'scarves': ['scarf', 'muffler'],
+                'swimwear': ['swimming trunks', 'bikini', 'swimwear'],
+                'undergarments': ['underwear', 'briefs', 'boxers', 'bras', 'panties', 'lingerie', 'corset', 'vest'],
+                'footwear': ['socks', 'slippers', 'shoes', 'footwear']
+            };
+
+            // Get the relevant tags for the selected category
+            const relevantTags = categoryMap[category];
+
+            // Show or hide product items based on category
+            productItems.forEach(item => {
+                const itemCategory = item.getAttribute('data-category')?.toLowerCase(); // Using optional chaining to handle missing data-category attribute
+
+                // Hide the item if it has no category or doesn't match the relevant tags
+                if (!itemCategory || !relevantTags.includes(itemCategory)) {
+                    item.style.display = 'none';
+                } else {
+                    item.style.display = 'block';
+                }
+            });
+        });
+    });
+});
