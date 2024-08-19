@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartDisplay(); // Ensure cart items are displayed
 });
 
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const categoryBoxes = document.querySelectorAll('.category-box');
     const productItems = document.querySelectorAll('.product-item');
 

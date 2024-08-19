@@ -24,11 +24,6 @@
             height: auto;
         }
 
-        .search-bar {
-            max-width: 500px;
-            margin: 0 auto 2rem auto; /* Center the search bar */
-        }
-
 
          /* Custom styles for carousels */
         .carousel-item img {
@@ -55,6 +50,7 @@
             width: 5%;
         }
     </style>
+
 </head>
 <body>
     <!-- Header Section -->
@@ -97,6 +93,14 @@
 
     <!-- Main Section -->
     <main class="container mt-4 main-content">
+
+        <!-- Search Bar -->
+        <div class="search-bar mb-4">
+            <input type="text" placeholder="Search..." aria-label="Search">
+            <button type="button" class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
 
         <!-- Categories Carousel Above Logo -->
         <div id="categories-carousel-above" class="carousel slide mb-4" data-ride="carousel">
@@ -238,12 +242,6 @@
         </div>
     </main>
 
-    <!-- Footer Section -->
-    <footer class="footer text-center py-3">
-        <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
-        <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
-    </footer>
-
     <!-- Cart Section -->
     <aside class="cart-section">
         <!-- Cart Header -->
@@ -267,6 +265,13 @@
             </div>
         </div>
     </aside>
+
+
+    <!-- Footer Section -->
+    <footer class="footer text-center py-3">
+        <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
+        <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

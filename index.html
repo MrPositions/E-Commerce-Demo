@@ -24,11 +24,6 @@
             height: auto;
         }
 
-        .search-bar {
-            max-width: 500px;
-            margin: 0 auto 2rem auto; /* Center the search bar */
-        }
-
 
          /* Custom styles for carousels */
         .carousel-item img {
@@ -55,6 +50,7 @@
             width: 5%;
         }
     </style>
+
 </head>
 <body>
     <!-- Header Section -->
@@ -98,58 +94,66 @@
     <!-- Main Section -->
     <main class="container mt-4 main-content">
 
+        <!-- Search Bar -->
+        <div class="search-bar mb-4">
+            <input type="text" placeholder="Search..." aria-label="Search">
+            <button type="button" class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
         <!-- Categories Carousel Above Logo -->
         <div id="categories-carousel-above" class="carousel slide mb-4" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="d-flex justify-content-center">
-                        <a href="headwear.html" class="category-box mx-2">
+                        <div class="category-box mx-2">
                             <img src="images/Beanie.png" alt="Crochet Beanie Icon" class="category-icon">
                             <p>Headwear</p>
-                        </a>
-                        <a href="torso.html" class="category-box mx-2">
+                        </div>
+                        <div class="category-box mx-2">
                             <img src="images/Sweater.png" alt="Crochet Shirt Icon" class="category-icon">
                             <p>Tops</p>
-                        </a>
+                        </div>
                         <!-- Add more categories as needed -->
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="d-flex justify-content-center">
-                        <a href="legs.html" class="category-box mx-2">
+                        <div class="category-box mx-2">
                             <img src="images/Pants.png" alt="Crochet Pants Icon" class="category-icon">
                             <p>Legs</p>
-                        </a>
-                        <a href="Handwear.html" class="category-box mx-2">
+                        </div>
+                        <div class="category-box mx-2">
                             <img src="images/WinterGloves.png" alt="Crochet Mittens Icon" class="category-icon">
                             <p>Handwear</p>
-                        </a>
+                        </div>
                         <!-- Add more categories as needed -->
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="d-flex justify-content-center">
-                        <a href="scarves.html" class="category-box mx-2">
+                        <div class="category-box mx-2">
                             <img src="images/Muffler.png" alt="Crochet Scarf Icon" class="category-icon">
                             <p>Scarves</p>
-                        </a>
-                        <a href="swimwear.html" class="category-box mx-2">
+                        </div>
+                        <div class="category-box mx-2">
                             <img src="images/BeachShorts.png" alt="Crochet Swimwear Icon" class="category-icon">
                             <p>Swimwear</p>
-                        </a>
+                        </div>
                         <!-- Add more categories as needed -->
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="d-flex justify-content-center">
-                        <a href="undergarments.html" class="category-box mx-2">
+                        <div class="category-box mx-2">
                             <img src="images/Underwear.png" alt="Crochet Scarf Icon" class="category-icon">
                             <p>Undergarments</p>
-                        </a>
-                        <a href="footwear.html" class="category-box mx-2">
+                        </div>
+                        <div class="category-box mx-2">
                             <img src="images/Sock.png" alt="Crochet Sock Icon" class="category-icon">
                             <p>Footwear</p>
-                        </a>
+                        </div>
                         <!-- Add more categories as needed -->
                     </div>
                 </div>
@@ -171,78 +175,72 @@
         </div>
 
         <!-- Reverse Order Carousel Above Footer -->
-        <div id="categories-carousel-reverse" class="carousel slide mb-4" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="d-flex justify-content-center">
-                        <a href="footwear.html" class="category-box mx-2">
-                            <img src="images/Sock.png" alt="Crochet Sock Icon" class="category-icon">
-                            <p>Footwear</p>
-                        </a>
-                        <a href="undergarments.html" class="category-box mx-2">
-                            <img src="images/Underwear.png" alt="Crochet Underwear Icon" class="category-icon">
-                            <p>Undergarments</p>
-                        </a>
-                        <!-- Add more categories as needed -->
-                    </div>
+<div id="categories-carousel-reverse" class="carousel slide mb-4" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="d-flex justify-content-center">
+                <div class="category-box mx-2">
+                    <img src="images/Underwear.png" alt="Crochet Underwear Icon" class="category-icon">
+                    <p>Undergarments</p>
                 </div>
-                <div class="carousel-item">
-                    <div class="d-flex justify-content-center">
-                        <a href="swimwear.html" class="category-box mx-2">
-                            <img src="images/BeachShorts.png" alt="Crochet Swimwear Icon" class="category-icon">
-                            <p>Swimwear</p>
-                        </a>
-                        <a href="scarves.html" class="category-box mx-2">
-                            <img src="images/Muffler.png" alt="Crochet Scarf Icon" class="category-icon">
-                            <p>Scarves</p>
-                        </a>
-                        <!-- Add more categories as needed -->
-                    </div>
+                <div class="category-box mx-2">
+                    <img src="images/Sock.png" alt="Crochet Sock Icon" class="category-icon">
+                    <p>Footwear</p>
                 </div>
-                <div class="carousel-item">
-                    <div class="d-flex justify-content-center">
-                        <a href="handwear.html" class="category-box mx-2">
-                            <img src="images/WinterGloves.png" alt="Crochet Mittens Icon" class="category-icon">
-                            <p>Handwear</p>
-                        </a>
-                        <a href="legs.html" class="category-box mx-2">
-                            <img src="images/Pants.png" alt="Crochet Pants Icon" class="category-icon">
-                            <p>Legs</p>
-                        </a>
-                        <!-- Add more categories as needed -->
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="d-flex justify-content-center">
-                        <a href="swimwear.html" class="category-box mx-2">
-                            <img src="images/BeachShorts.png" alt="Crochet Swimwear Icon" class="category-icon">
-                            <p>Swimwear</p>
-                        </a>
-                        <a href="scarves.html" class="category-box mx-2">
-                            <img src="images/Muffler.png" alt="Crochet Scarf Icon" class="category-icon">
-                            <p>Scarves</p>
-                        </a>
-                        <!-- Add more categories as needed -->
-                    </div>
-                </div>
-                <!-- Add more carousel items if necessary -->
+                <!-- Add more categories as needed -->
             </div>
-            <a class="carousel-control-prev" href="#categories-carousel-reverse" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#categories-carousel-reverse" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center">
+                <div class="category-box mx-2">
+                    <img src="images/Muffler.png" alt="Crochet Scarf Icon" class="category-icon">
+                    <p>Scarves</p>
+                </div>
+                <div class="category-box mx-2">
+                    <img src="images/BeachShorts.png" alt="Crochet Swimwear Icon" class="category-icon">
+                    <p>Swimwear</p>
+                </div>
+                <!-- Add more categories as needed -->
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center">
+                <div class="category-box mx-2">
+                    <img src="images/Pants.png" alt="Crochet Pants Icon" class="category-icon">
+                    <p>Legs</p>
+                </div>
+                <div class="category-box mx-2">
+                    <img src="images/WinterGloves.png" alt="Crochet Mittens Icon" class="category-icon">
+                    <p>Handwear</p>
+                </div>
+                <!-- Add more categories as needed -->
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center">
+                <div class="category-box mx-2">
+                    <img src="images/Beanie.png" alt="Crochet Beanie Icon" class="category-icon">
+                    <p>Headwear</p>
+                </div>
+                <div class="category-box mx-2">
+                    <img src="images/Sweater.png" alt="Crochet Shirt Icon" class="category-icon">
+                    <p>Tops</p>
+                </div>
+                <!-- Add more categories as needed -->
+            </div>
+        </div>
+        <!-- Add more carousel items if necessary -->
+    </div>
+    <a class="carousel-control-prev" href="#categories-carousel-reverse" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#categories-carousel-reverse" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
     </main>
-
-    <!-- Footer Section -->
-    <footer class="footer text-center py-3">
-        <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
-        <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
-    </footer>
 
     <!-- Cart Section -->
     <aside class="cart-section">
@@ -267,6 +265,13 @@
             </div>
         </div>
     </aside>
+
+
+    <!-- Footer Section -->
+    <footer class="footer text-center py-3">
+        <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
+        <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
