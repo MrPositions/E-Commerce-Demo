@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // JavaScript for handling tab switching
+    // Handle tab switching
     document.querySelectorAll('.tab-button').forEach(button => {
         button.addEventListener('click', () => {
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // JavaScript to handle color selection
+    // Handle color selection
     document.querySelectorAll('.color-button').forEach(button => {
         button.addEventListener('click', () => {
             const color = button.getAttribute('data-color');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // JavaScript to handle style image selection
+    // Handle style image selection
     const styleOptions = document.querySelectorAll('.style-option');
     styleOptions.forEach((img, index) => {
         img.addEventListener('click', () => {
@@ -29,51 +29,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Update main display image
             const displayImage = document.querySelector('.product-image img');
-            displayImage.src = img.src; // Set the main display image to the clicked style image
+            displayImage.src = img.src;
         });
     });
 
-    // Ensure the first style image is selected by default
+    // Select first style image by default
     if (styleOptions.length > 0) {
         const firstStyleOption = styleOptions[0];
         firstStyleOption.parentElement.classList.add('selected');
         document.querySelector('.product-image img').src = firstStyleOption.src;
     }
 
-    // JavaScript to handle Add to Cart button
+    // Handle Add to Cart button
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', (event) => {
-            console.log('Add to Cart button clicked');
-
-            // Retrieve product information
             const productItem = event.target.closest('.product-details');
-            if (!productItem) {
-                console.error('Product item not found');
-                return;
-            }
+            if (!productItem) return;
 
-            const productName = productItem.querySelector('h1')?.textContent;
-            const productImage = productItem.querySelector('.product-image img')?.src;
-            const productPrice = productItem.querySelector('.price')?.textContent;
+            const productName = productItem.querySelector('h1')?.textContent || '';
+            const productImage = productItem.querySelector('.product-image img')?.src || '';
+            const productPrice = productItem.querySelector('.price')?.textContent || '';
             const selectedColor = document.querySelector('.color-button.selected')?.getAttribute('data-color') || '';
             const selectedStyleIndex = [...document.querySelectorAll('.style-option')].indexOf(document.querySelector('.styles li.selected .style-option')) + 1;
             const styleIdentifier = selectedStyleIndex ? `-S${selectedStyleIndex}` : '';
 
-            console.log('Product Name:', productName);
-            console.log('Product Image:', productImage);
-            console.log('Product Price:', productPrice);
-            console.log('Selected Color:', selectedColor);
+            if (!productName || !productImage || !productPrice) return;
 
-            if (!productName || !productImage || !productPrice) {
-                console.error('Product information missing');
-                return;
-            }
-
-            // Get cart items from localStorage
+            // Retrieve cart items from localStorage
             let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
             let itemFound = false;
 
-            // Check for duplicate items with same color and style
+            // Check for duplicate items with the same color and style
             cartItems.forEach(item => {
                 if (item.name === productName + styleIdentifier && item.color === selectedColor) {
                     item.quantity += 1;
@@ -99,15 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCartDisplay();
             updateCartBadge();
 
-            // Open cart and bring it into view when adding an item
+            // Open cart and scroll it into view
             const cartSection = document.querySelector('.cart-section');
             if (cartSection) {
                 cartSection.classList.add('open');
                 setTimeout(() => {
                     cartSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }, 300); // Delay to allow CSS transition if necessary
-            } else {
-                console.error('Cart section not found');
+                }, 300);
             }
         });
     });
@@ -129,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h4>${item.name}</h4>
                             <p class="price">${item.price}</p>
                         </div>
-                        <p class="style-display">${item.style ? `Style: ${item.style}` : ''}</p>
                         <div class="quantity-controls">
                             <button class="quantity-minus">-</button>
                             <input type="text" class="quantity-input" value="${item.quantity}" readonly>
@@ -147,8 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItem.querySelector('.delete-btn').addEventListener('click', () => {
                 const updatedCartItems = cartItems.filter(cartItem => cartItem.name !== item.name || cartItem.color !== item.color);
                 localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-                updateCartDisplay(); // Update display
-                updateCartBadge(); // Update badge after removal
+                updateCartDisplay();
+                updateCartBadge();
             });
 
             // Handle quantity controls
@@ -183,14 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Display total
         document.querySelector('.cart-total').textContent = `Total: $${total.toFixed(2)}`;
-        adjustSpacing(); // Adjust spacing after total update
     }
 
     // Function to update the cart badge count
     function updateCartBadge() {
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        console.log('Cart Items:', cartItems); // Debugging line to check cart items
-        // Create a Set to track unique item names with color and style
         const uniqueItems = new Set(cartItems.map(item => `${item.name}-${item.color}`));
         document.getElementById('cart-badge').textContent = uniqueItems.size;
     }
@@ -205,87 +185,66 @@ document.addEventListener('DOMContentLoaded', () => {
             return item;
         });
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
-        updateCartDisplay(); // Ensure the cart display is updated
+        updateCartDisplay();
+        updateCartBadge();
     }
 
-    // JavaScript to handle Buy Now button
+    // Handle Buy Now button
     document.querySelectorAll('.buy-now').forEach(button => {
         button.addEventListener('click', () => {
-            window.location.href = 'checkout.html'; // Redirect directly to the checkout page
+            window.location.href = 'checkout.html';
         });
     });
 
-    // JavaScript to handle cart section open/close
-    document.getElementById('cart-icon').addEventListener('click', () => {
-        document.querySelector('.cart-section').classList.toggle('open');
+    // Handle cart section open/close
+    const cartIcon = document.getElementById('cart-icon');
+    const cartSection = document.querySelector('.cart-section');
+
+    cartIcon.addEventListener('click', () => {
+        cartSection.classList.toggle('open');
+        updateCartDisplay(); // Ensure cart items are displayed when opening the cart
     });
 
     document.getElementById('continue-shopping').addEventListener('click', () => {
-        document.querySelector('.cart-section').classList.remove('open');
+        cartSection.classList.remove('open');
     });
 
     document.getElementById('proceed-to-checkout').addEventListener('click', () => {
         window.location.href = 'checkout.html';
     });
 
-    // JavaScript to handle search functionality
-    document.querySelector('.search-bar button').addEventListener('click', () => {
-        const searchQuery = document.querySelector('.search-bar input').value.trim();
-        if (searchQuery) {
-            window.location.href = `search.html?query=${encodeURIComponent(searchQuery)}`;
-        }
-    });
-
-    // Update cart badge and display on page load
+    // Update cart badge on every page load
     updateCartBadge();
-    updateCartDisplay(); // Ensure cart items are displayed
+
+    // Clear the cart on the order confirmation page
+    if (window.location.pathname.endsWith('orderconfirmation.html')) {
+        localStorage.removeItem('cartItems');
+        updateCartDisplay();
+        updateCartBadge();
+    }
+
+    // Initial display update for cart items when the page loads
+    updateCartDisplay();
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const categoryBoxes = document.querySelectorAll('.category-box');
-    const productItems = document.querySelectorAll('.product-item');
 
-    categoryBoxes.forEach(box => {
-        box.addEventListener('click', function(e) {
-            e.preventDefault();
+// Handle search functionality
+const searchInput = document.querySelector('.search-bar input');
+const searchButton = document.querySelector('.search-button');
 
-            // Remove the selected effect from all category boxes
-            categoryBoxes.forEach(box => {
-                box.classList.remove('selected-category');
-            });
+function executeSearch() {
+    const searchQuery = searchInput.value.trim();
+    if (searchQuery) {
+        window.location.href = `search.html?query=${encodeURIComponent(searchQuery)}`;
+    }
+}
 
-            // Add the selected effect to the clicked category box
-            this.classList.add('selected-category');
+// Add event listener for search button click
+searchButton.addEventListener('click', executeSearch);
 
-            // Get the selected category
-            const category = this.querySelector('p').textContent.toLowerCase();
-
-            // Map categories to their respective tags
-            const categoryMap = {
-                'headwear': ['hat', 'beanie', 'headwear'],
-                'tops': ['top', 'shirt', 'sweater', 'jacket'],
-                'legs': ['pants', 'leggings', 'shorts'],
-                'handwear': ['gloves', 'mittens', 'handwear'],
-                'scarves': ['scarf', 'muffler'],
-                'swimwear': ['swimming trunks', 'bikini', 'swimwear'],
-                'undergarments': ['underwear', 'briefs', 'boxers', 'bras', 'panties', 'lingerie', 'corset', 'vest'],
-                'footwear': ['socks', 'slippers', 'shoes', 'footwear']
-            };
-
-            // Get the relevant tags for the selected category
-            const relevantTags = categoryMap[category];
-
-            // Show or hide product items based on category
-            productItems.forEach(item => {
-                const itemCategory = item.getAttribute('data-category')?.toLowerCase(); // Using optional chaining to handle missing data-category attribute
-
-                // Hide the item if it has no category or doesn't match the relevant tags
-                if (!itemCategory || !relevantTags.includes(itemCategory)) {
-                    item.style.display = 'none';
-                } else {
-                    item.style.display = 'block';
-                }
-            });
-        });
-    });
+// Add event listener for Enter key press
+searchInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        executeSearch();
+    }
 });
