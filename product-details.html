@@ -70,21 +70,6 @@
                     <h1>Product Name</h1>
                     <p>Detailed description of the product goes here. This section can include features, benefits, and any other relevant information.</p>
 
-                    <!-- Delivery or Pickup Section -->
-                    <aside class="delivery-pickup mt-4">
-                        <h2>Delivery or Pickup</h2>
-                        <div class="tabs mb-3">
-                            <button class="btn btn-light tab-button active" data-tab="delivery">Delivery</button>
-                            <button class="btn btn-light tab-button" data-tab="pickup">Pickup</button>
-                        </div>
-                        <div class="tab-content delivery">
-                            <!-- Content for Delivery -->
-                        </div>
-                        <div class="tab-content pickup" style="display: none;">
-                            <!-- Content for Pickup -->
-                        </div>
-                    </aside>
-
                     <!-- Product Options -->
                     <div class="product-options mt-4">
                         <div class="styles mb-3">
@@ -153,5 +138,48 @@
 
     <!-- Custom JavaScript -->
     <script src="functionality.js"></script>
+    <script>
+        document.querySelectorAll('.buy-now').forEach(button => {
+            button.addEventListener('click', () => {
+                // Retrieve product information
+                const productItem = button.closest('.product-details');
+                const productName = productItem.querySelector('h1').textContent;
+                const productImage = productItem.querySelector('.product-image img').src;
+                const productPrice = productItem.querySelector('.price').textContent;
+                const selectedColor = document.querySelector('.color-button.selected')?.getAttribute('data-color') || '';
+                const selectedStyleIndex = [...document.querySelectorAll('.style-option')].indexOf(document.querySelector('.styles li.selected .style-option')) + 1;
+                const styleIdentifier = selectedStyleIndex ? `-S${selectedStyleIndex}` : '';
+
+                // Create a product object to save
+                const selectedProductForCart = {
+                    name: productName + styleIdentifier,
+                    image: productImage,
+                    price: productPrice,
+                    color: selectedColor,
+                    quantity: 1
+                };
+
+                // Retrieve current cart items from localStorage
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+                // Check if the product already exists in the cart
+                const existingItemIndex = cartItems.findIndex(item => item.name === selectedProductForCart.name);
+
+                if (existingItemIndex > -1) {
+                    // If the item already exists in the cart, increase its quantity
+                    cartItems[existingItemIndex].quantity += 1;
+                } else {
+                    // If it's a new item, add it to the cart
+                    cartItems.push(selectedProductForCart);
+                }
+
+                // Save the updated cart items back to localStorage
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+                // Redirect to checkout page
+                window.location.href = 'checkout.html';
+            });
+        });
+    </script>
 </body>
 </html>

@@ -192,37 +192,6 @@ body {
 
 
 
-/* Delivery/Pickup Section */
-.delivery-pickup {
-    margin: 20px 0;
-}
-
-.tabs {
-    display: flex;
-    margin-bottom: 10px;
-}
-
-.tab-button {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background: #fff;
-    cursor: pointer;
-    text-align: center;
-}
-
-.tab-button.active {
-    background: black; /* Black background for active tab */
-    color: white; /* White text color for active tab */
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
 
 /* Cart Section */
 .cart-section {

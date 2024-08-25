@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Sewn Elegance</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Custom Styles for Checkout Page */
+        .main-content {
+            padding: 2rem;
+        }
+
+        .checkout-summary {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            margin-top: 2rem;
+        }
+
+        .checkout-summary h3 {
+            margin-top: 0;
+        }
+
+        .checkout-summary .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkout-summary .summary-item:last-child {
+            border-top: 1px solid #ddd;
+            padding-top: 0.5rem;
+        }
+
+        .form-control {
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: #995F2B;
+            box-shadow: 0 0 5px rgba(169, 129, 94, 0.5);
+        }
+
+        h2 {
+    font-size: 1.5rem; /* Adjust to your desired size */
+    margin-top: 1rem; /* Consistent top margin */
+    margin-bottom: 0.5rem; /* Consistent bottom margin */
+    font-weight: 700; /* Ensures bold text */
+    text-align: left; /* Aligns text to the left */
+}
+
+        /* Payment Method Styles */
+.payment-methods {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center cards horizontally */
+}
+
+.modal-title {
+    text-align: center;
+    width: 100%;
+}
+
+.method-card {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ccc; /* Default border color */
+    margin: 10px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.method-card {
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and text color */
+}
+
+.method-card:hover {
+    background-color: #e0e0e0; /* Light grey on hover */
+    color: #000; /* Text color for hovered card */
+}
+
+.method-card.selected {
+    background-color: #e0e0e0; /* Highlight color for selected method */
+    color: #000; /* Change text color for visibility */
+    border: 1px solid #e0e0e0; /* Border for selected option */
+}
+
+#back-arrow {
+    color: #000000; /* Dark black color for the arrow */
+    font-weight: bold; /* Optional: Make the arrow appear bolder */
+    text-decoration: none; /* Remove underline if present */
+}
+
+
+.btn.submit-btn {
+    background-color: #A97848; /* Rustic Copper */
+    color: #fff; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+    display: block; /* Full width */
+    margin: 20px auto; /* Center button */
+    text-align: center; /* Center text */
+}
+
+.btn.submit-btn:hover {
+    background-color: #A95b38; /* Darker shade on hover */
+}
+
+
+.delivery-pickup {
+    margin-top: 1rem; /* Ensure proper spacing from the previous section */
+}
+
+.delivery-method {
+    display: flex;
+    justify-content: flex-start; /* Aligns the cards to the left */
+    gap: 1rem; /* Adds space between the cards */
+    margin-top: 1rem;
+}
+
+.delivery-method .method-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%; /* Keep this width for the desired size */
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and text color */
+}
+
+.delivery-method .method-card:hover {
+    background-color: #f0f0f0; /* Background color on hover */
+}
+
+.delivery-method .method-card i {
+    margin-right: 0.5rem; /* Space between icon and text */
+}
+
+/* Active state for selected delivery method */
+.delivery-method .method-card.selected {
+    background-color: #e0e0e0; /* Highlight color for selected method */
+    color: #000; /* Change text color for visibility */
+}
+
+
+
+
+        /* Specific styles for the Place Order button */
+.place-order-btn {
+    background-color: #A97848; /* Rustic Copper color */
+    border-color: #995F2B;
+    color: white; /* Ensures text is readable */
+}
+
+.place-order-btn:hover {
+    background-color: #A9815E !important; /* Warm Sandstone color on hover */
+    border-color: #995F2B;
+}
+
+.place-order-btn:active,
+.place-order-btn:focus {
+    background-color: #A97848; /* Keeps the Rustic Copper color when clicked or focused */
+    border-color: #995F2B;
+    color: white; /* Keeps text color consistent */
+    outline: none; /* Removes any default outline */
+}
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center text-md-left">
+                    <div class="logo">
+                        <img src="images/logo1.png" alt="Sewn Elegance Logo" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <nav class="nav">
+                        <ul class="list-unstyled d-flex justify-content-center mb-0">
+                            <li class="mx-4"><a href="index.html">Home</a></li>
+                            <li class="mx-4"><a href="products.html">Products</a></li>
+                            <li class="mx-4"><a href="about.html">About Us</a></li>
+                            <li class="mx-4"><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-3 text-md-text-center">
+                    <div class="header-icons d-flex justify-content-end align-items-center">
+                        <!-- Icons -->
+                        <a href="user-profile.html" class="icon mx-2">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="order-status.html" class="icon mx-2">
+                            <i class="fas fa-truck"></i>
+                        </a>
+                        <a href="#" class="icon mx-2 cart-icon" id="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cart-badge">0</span> <!-- Badge for item count -->
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+<main class="container mt-4 main-content">
+    <h1 class="text-center">Checkout</h1>
+
+    <!-- Checkout Form -->
+    <div class="checkout-form">
+        <h2>Billing Information</h2>
+        <form id="checkout-form">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Full Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="John Doe" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" placeholder="johndoe@example.com" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Shipping Address</label>
+                <textarea class="form-control" id="address" rows="3" placeholder="123 Main St, Apt 4B, New York, NY 10001" required></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" required>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="zip">ZIP Code</label>
+                    <input type="text" class="form-control" id="zip" required>
+                </div>
+            </div>
+
+            <!-- Delivery or Pickup Section -->
+            <div class="delivery-pickup mt-4">
+                <h2>Delivery or Pickup</h2>
+                <div class="delivery-method">
+                    <div class="method-card" id="delivery" onclick="selectDeliveryMethod('delivery')">
+                        <i class="fas fa-motorcycle"></i>
+                        Delivery
+                    </div>
+                    <div class="method-card" id="pickup" onclick="selectDeliveryMethod('pickup')">
+                        <i class="fas fa-box"></i>
+                        Pickup
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="checkout-summary">
+                <h3>Order Summary</h3>
+                <div id="order-summary">
+                    <!-- Summary items will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Place Order Button -->
+            <button type="button" class="btn btn-primary btn-lg btn-block place-order-btn" onclick="showPaymentOptions()">Place Order</button>
+        </form>
+    </div>
+</main>
+
+<!-- Payment Options Modal -->
+<div class="modal fade" id="paymentOptionsModal" tabindex="-1" role="dialog" aria-labelledby="paymentOptionsLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center w-100" id="paymentOptionsLabel">Select Payment Method</h5>
+            </div>
+            <div class="modal-body text-center">
+                <div class="payment-method">
+                    <div class="method-card" id="credit-card-option" onclick="selectPaymentOption('credit-card')">
+                        <i class="fas fa-credit-card"></i>
+                        Credit Card
+                    </div>
+                    <div class="method-card" id="paypal-option" onclick="selectPaymentOption('paypal')">
+                        <i class="fab fa-paypal"></i>
+                        PayPal
+                    </div>
+                    <div class="method-card" id="cod-option" onclick="selectPaymentOption('cod')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Cash On Delivery
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="submit" class="btn btn-primary btn-block place-order-btn" id="confirm-preference" onclick="confirmPaymentPreference()">Confirm Preference</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Credit Card Modal (Reused) -->
+<div class="modal fade" id="creditCardModal" tabindex="-1" role="dialog" aria-labelledby="creditCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-link" id="back-arrow" onclick="showPaymentOptions()" style="display:none;">←</button>
+                <h5 class="modal-title" id="creditCardModalLabel">Enter Credit Card Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="credit-card-form">
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="Card Number" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="expiryDate">Expiry Date</label>
+                            <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cvv">CVV</label>
+                            <input type="text" class="form-control" id="cvv" placeholder="CVV" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardName">Name on Card</label>
+                        <input type="text" class="form-control" id="cardName" placeholder="Name on Card" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block place-order-btn">Submit Payment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Cart Section -->
+    <aside class="cart-section">
+        <!-- Cart Header -->
+        <div class="cart-header">
+            <h2>My Cart</h2>
+        </div>
+        <!-- Cart Main Area -->
+        <div class="cart-content">
+            <ul id="cart-items" class="list-unstyled">
+                <!-- Cart items will be dynamically added here -->
+            </ul>
+        </div>
+        <!-- Cart Footer -->
+        <div class="cart-footer">
+            <div class="total-section">
+                <h3>Total: <span id="cart-total">$0.00</span></h3>
+            </div>
+            <div class="cart-buttons">
+                <button class="btn btn-primary btn-lg continue-shopping" id="continue-shopping">Continue Shopping</button>
+                <button class="btn btn-danger btn-lg proceed-to-checkout" id="proceed-to-checkout">Proceed to Checkout</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Footer Section -->
+    <footer class="footer text-center py-3">
+        <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
+        <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="functionality.js"></script>
+    <script>
+        // Select all tab buttons
+        const tabButtons = document.querySelectorAll('.tab-button');
+
+        // Add click event listeners to each button
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove 'active' class from all buttons
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Add 'active' class to the clicked button
+                button.classList.add('active');
+
+                // Update any related functionality if needed
+                // For example, show/hide content based on selected tab
+                const selectedTab = button.getAttribute('data-tab');
+                // You can add more logic here if you need to manage content visibility
+            });
+        });
+
+        // Function to update order summary
+        function updateOrderSummary() {
+            const orderSummaryDiv = document.getElementById('order-summary');
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || []; // Assuming cart items are stored in local storage
+            let total = 0;
+
+            // Clear existing summary
+            orderSummaryDiv.innerHTML = '';
+
+            // Iterate through cart items and create summary
+            cartItems.forEach(item => {
+                const { name, price, quantity } = item;
+                const itemTotal = price * quantity;
+                total += itemTotal;
+
+                const summaryItemDiv = document.createElement('div');
+                summaryItemDiv.className = 'summary-item';
+                summaryItemDiv.innerHTML = `
+                    <span>${name} (x${quantity})</span>
+                    <span>$${itemTotal.toFixed(2)}</span>
+                            `;
+            orderSummaryDiv.appendChild(summaryItemDiv);
+        });
+
+        // Add total to the summary
+        const totalDiv = document.createElement('div');
+        totalDiv.className = 'summary-item';
+        totalDiv.innerHTML = `
+            <strong>Total</strong>
+            <strong>$${total.toFixed(2)}</strong>
+        `;
+        orderSummaryDiv.appendChild(totalDiv);
+    }
+
+    // Call the function on page load
+    window.onload = function() {
+        updateOrderSummary();
+    };
+
+    function selectDeliveryMethod(selectedId) {
+    const methods = document.querySelectorAll('.delivery-method .method-card');
+    methods.forEach(method => {
+        method.style.backgroundColor = ''; // Reset background color
+        method.style.color = ''; // Reset text color
+    });
+
+    const selectedMethod = document.getElementById(selectedId);
+    selectedMethod.style.backgroundColor = '#e0e0e0'; // Highlight selected method
+    selectedMethod.style.color = '#000'; // Change text color for visibility
+}
+
+
+// Global variable for selected payment method
+let selectedPaymentMethod = null;
+
+// Function to handle payment method selection with highlight
+function selectPaymentMethod(selectedId) {
+    const cards = document.querySelectorAll('.method-card');
+    cards.forEach(card => {
+        card.style.backgroundColor = ''; // Reset background color
+        card.style.color = ''; // Reset text color
+    });
+
+    const selectedCard = document.getElementById(selectedId);
+    selectedCard.style.backgroundColor = '#A9815E'; // Highlight selected card with your specified color
+    selectedCard.style.color = '#fff'; // Change text color to white for visibility
+
+    // Update the global selected payment method variable
+    selectedPaymentMethod = selectedId;
+}
+
+// Function to show the payment options modal
+function showPaymentOptions() {
+    $('#paymentOptionsModal').modal('show');
+}
+
+// Function to select the payment option and store it in sessionStorage
+function selectPaymentOption(method) {
+    sessionStorage.setItem('selectedPaymentMethod', method);
+}
+
+// Function to handle payment method selection
+function selectPaymentOption(option) {
+    // Remove the 'selected' class from all method cards
+    document.querySelectorAll('.payment-method .method-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+
+    // Add the 'selected' class to the clicked method card
+    document.getElementById(option + '-option').classList.add('selected');
+
+    // Store the selected method in the global variable
+    selectedPaymentMethod = option; // 'credit-card', 'paypal', or 'cod'
+}
+
+// Function to confirm the selected payment preference and take appropriate action
+function confirmPaymentPreference() {
+    // Use the global variable to determine the selected method
+    if (selectedPaymentMethod === 'credit-card') {
+        $('#paymentOptionsModal').modal('hide'); // Hide the payment options modal
+        $('#back-arrow').show(); // Show back arrow
+        $('#creditCardModal').modal('show'); // Show credit card modal
+    } else if (selectedPaymentMethod === 'paypal') {
+        processPayPalPayment(); // Redirect to PayPal
+    } else if (selectedPaymentMethod === 'cod') {
+        window.location.href = "orderconfirmation.html"; // Direct to order confirmation
+    }
+}
+
+// Function to handle PayPal payment processing
+function processPayPalPayment() {
+    console.log("Redirecting to PayPal...");
+
+    // Example PayPal URL for payment processing (customize with your details)
+    const paypalUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=YOUR_PAYPAL_EMAIL&item_name=Your+Item&amount=ITEM_PRICE&currency_code=USD";
+
+    // Redirect to PayPal
+    window.location.href = paypalUrl;
+}
+
+// Function to process credit card payment
+function processCreditCardPayment() {
+    // Simulate credit card payment processing
+    console.log("Processing credit card payment...");
+    alert("Credit card payment processed (this is a placeholder).");
+}
+
+// Function to handle modal display for payment methods
+function selectPaymentMethod(method) {
+    if (method === 'credit-card') {
+        $('#creditCardModal').modal('show');
+    } else if (method === 'paypal') {
+        processPayPalPayment(); // Redirect to PayPal
+    }
+}
+
+// Function to show payment options and hide credit card modal
+function showPaymentOptions() {
+    $('#creditCardModal').modal('hide');
+    $('#paymentOptionsModal').modal('show');
+}
+
+// Function to handle delivery method selection
+function selectDeliveryMethod(method) {
+    document.querySelectorAll('.delivery-method .method-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    document.getElementById(method).classList.add('selected');
+}
+
+// Form validation and submission for credit card payment
+document.getElementById('credit-card-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const paymentMethodId = 'your-payment-method-id'; // This should be replaced with actual payment method ID
+    const email = document.getElementById('email').value; // Customer's email
+    const orderDetails = {
+        billingInfo: 'Customer Billing Info Here', // Replace with actual billing info
+        summary: 'Order Summary Here', // Replace with the actual order summary
+    };
+    const deliveryType = selectedDeliveryMethod; // 'delivery' or 'pickup'
+    const paymentMethod = selectedPaymentMethod; // 'credit-card', 'paypal', or 'cod'
+
+    fetch('/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentMethodId, email, orderDetails, deliveryType, paymentMethod })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.clientSecret) {
+            alert('Payment successful! Proceeding to order confirmation.');
+            window.location.href = 'orderconfirmation.html';
+        } else {
+            alert('Payment failed: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+        function validateForm() {
+    // Get the form element
+    const form = document.getElementById('checkout-form');
+
+    // Check if form is valid
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return false;
+    }
+
+    // Check if a delivery or pickup method is selected
+    const deliveryMethod = document.querySelector('.delivery-method .method-card.selected');
+    if (!deliveryMethod) {
+        alert('Please select a delivery or pickup option.');
+        return false;
+    }
+
+    return true; // Form and delivery/pickup selection are valid
+}
+
+function showPaymentOptions() {
+    if (validateForm()) {
+        $('#paymentOptionsModal').modal('show');
+    }
+}
+
+// Example: Adding event listeners for form validation before submitting
+document.getElementById('checkout-form').addEventListener('submit', function(event) {
+    if (!validateForm()) {
+        event.preventDefault(); // Prevent form submission if invalid
+    }
+});
+
+
+
+</script>
+</body>
+</html>
