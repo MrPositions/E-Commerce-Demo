@@ -567,7 +567,7 @@ document.getElementById('credit-card-form').addEventListener('submit', function 
     const deliveryType = selectedDeliveryMethod; // 'delivery' or 'pickup'
     const paymentMethod = selectedPaymentMethod; // 'credit-card', 'paypal', or 'cod'
 
-    fetch('/create-payment-intent', {
+    fetch('https://e-commerce-demo-liart.vercel.app/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ paymentMethodId, email, orderDetails, deliveryType, paymentMethod })
