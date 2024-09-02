@@ -1,32 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation</title>
+    <title>Login - Sewn Elegance</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .tracking-number {
+        /* Custom styles */
+        body {
+            font-family: 'Atlantic BC', sans-serif;
+            color: #333;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
             font-size: 1.5rem;
+            color: #A97848;
+        }
+
+        .form-group label {
             font-weight: bold;
-            color: #333; /* Text color */
+            color: #555;
         }
 
-        .tracking-link {
-            color: #333; /* Match the tracking number color */
-            text-decoration: none; /* Remove underline */
+        .form-control {
+        border-radius: 4px;
+        padding: 10px;
+        border: 1px solid #ccc; /* Default border color */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .tracking-link:hover {
-            color: #333; /* Match the tracking number color */
-            text-decoration: underline; /* Underline on hover for better UX */
+        .form-control:focus {
+            border-color: #995F2B;
+            box-shadow: 0 0 5px rgba(169, 129, 94, 0.5);
+            outline: none; /* Remove default outline */
         }
 
+        .login-btn {
+            background-color: #A97848;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #A9815E;
+        }
+
+        .signup-link {
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .signup-link a {
+            color: #A97848;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
     <!-- Header Section -->
     <header class="header">
@@ -95,23 +151,24 @@
             </div>
         </div>
     </header>
-
-    <!-- Main Section -->
-    <main class="container mt-4 text-center">
-        <h1>Order Successful</h1>
-        <p class="lead">
-            Your order has been successfully received. We will contact you shortly to confirm your purchase.
-            <br><br>
-            <span class="order-note">
-                Please note that while we strive to respond promptly, it may take up to 1-2 business days to process your order.
-            </span>
-        </p>
-
-        <!-- Tracking Number Display -->
-        <div class="tracking-number mt-4">
-            <span id="tracking-number"></span>
+    <!-- Login Form Section -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        <div class="signup-link">
+            <p>Don't have an account? <a href="signup.html">Sign up</a></p>
         </div>
-    </main>
+    </div>
 
     <!-- Cart Section -->
     <aside class="cart-section">
@@ -125,6 +182,7 @@
                 <!-- Cart items will be dynamically added here -->
             </ul>
         </div>
+
         <!-- Cart Footer -->
         <div class="cart-footer">
             <div class="total-section">
@@ -137,36 +195,23 @@
         </div>
     </aside>
 
+
     <!-- Footer Section -->
     <footer class="footer text-center py-3">
         <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
         <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="functionality.js"></script>
     <script>
-        // Function to display tracking number
-        function displayTrackingNumber() {
-            const trackingNumber = sessionStorage.getItem('trackingNumber'); // Retrieve from sessionStorage
-            const trackingNumberDiv = document.getElementById('tracking-number');
+        // Example JavaScript code to handle form submission and redirect
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Perform login logic here (e.g., AJAX request to server)
 
-            if (trackingNumber) {
-                // Create a link to the order tracking page
-                const trackingLink = `<a href="ordertracking.html?tracking=${trackingNumber}" class="tracking-link">${trackingNumber}</a>`;
-                trackingNumberDiv.innerHTML = `Tracking Number: ${trackingLink}`; // Insert the link into the div
-            } else {
-                trackingNumberDiv.textContent = 'Tracking Number: Not available'; // Fallback if not found
-            }
-        }
-
-        // Call the function on page load
-        window.onload = function() {
-            displayTrackingNumber();
-        };
-
+            // Example: Redirect to home page after successful login
+            window.location.href = 'index.html';
+        });
     </script>
 </body>
+
 </html>

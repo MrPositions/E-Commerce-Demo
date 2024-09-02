@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Sewn Elegance</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Contact Section Styles */
+#contact {
+    padding: 40px 20px; /* Adjust padding for better fit */
+    color: #333; /* Dark text color for readability */
+    background-color: #FFFEF8; /* Light background color */
+    text-align: center;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-bottom: 10px; /* Space below the contact section */
+}
+
+#contact h2 {
+    font-size: 2.5em; /* Larger heading */
+    margin-bottom: 15px; /* Space below the heading */
+    color: #A97848; /* Rustic Copper color for the heading */
+}
+
+#contact .w3-section p {
+    color: #555; /* Slightly darker gray for the text */
+    font-size: 1.1em; /* Standard font size */
+    margin-bottom: 10px; /* Space between paragraphs */
+}
+
+#contact form p {
+    margin-bottom: 15px; /* Space between form elements */
+}
+
+#contact .w3-input {
+    width: calc(100% - 20px); /* Full-width input fields with padding adjustment */
+    padding: 12px 15px; /* Padding for input fields */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners for input fields */
+    transition: border 0.3s; /* Smooth border transition */
+}
+
+#contact .w3-input:focus {
+    border-color: #A97848; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
+
+#contact .w3-button {
+    background-color: #A97848; /* Rustic Copper color for button */
+    color: #fff; /* White text color */
+    border: none; /* No border */
+    font-size: 1.2em; /* Button font size */
+    padding: 12px 20px; /* Padding for the button */
+    border-radius: 5px; /* Rounded corners for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transitions */
+}
+
+#contact .w3-button:hover {
+    background-color: #A9815E; /* Warm Sandstone color on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+    #contact h2 {
+        font-size: 2.2em; /* Slightly smaller heading */
+    }
+
+    #contact .w3-input {
+        font-size: 1em; /* Standard input font size */
+        padding: 10px; /* Adjust padding for mobile */
+    }
+
+    #contact .w3-button {
+        font-size: 1em; /* Standard button font size */
+        padding: 10px 15px; /* Adjust padding for mobile */
+    }
+}
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center text-md-left">
+                    <div class="logo">
+                        <img src="images/logo1.png" alt="Sewn Elegance Logo" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <!-- Hidden Navigation on Mobile -->
+                    <nav class="nav d-none d-md-block">
+                        <ul class="list-unstyled d-flex justify-content-center mb-0">
+                            <li class="mx-4"><a href="index.html">Home</a></li>
+                            <li class="mx-4"><a href="products.html">Products</a></li>
+                            <li class="mx-4"><a href="about.html">About Us</a></li>
+                            <li class="mx-4"><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-3 text-md-text-center">
+                    <!-- Hidden Icons on Mobile -->
+                    <div class="header-icons d-none d-md-flex justify-content-end align-items-center">
+                        <!-- Icons -->
+                        <a href="#" class="icon mx-2" id="userIcon">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="previousorders.html">Previous Orders</a>
+                            <a href="login.html">SignIn/SignUp</a>
+                        </div>
+                        <a href="ordertracking.html" class="icon mx-2">
+                            <i class="fas fa-truck"></i>
+                        </a>
+                        <a href="#" class="icon mx-2 cart-icon" id="pc-cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="pc-cart-badge">0</span> <!-- Badge for item count -->
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hamburger Menu for Mobile -->
+                <div class="col-12 d-md-none">
+                    <div class="hamburger-menu">
+                        <div class="hamburger-icon">☰</div>
+                        <div class="mobile-menu hidden" id="mobile-menu">
+                            <ul class="list-unstyled">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="products.html">Products</a></li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="previousorders.html">Previous Orders</a></li>
+                                <li><a href="ordertracking.html">Order Tracking</a></li>
+                                <li><a href="login.html">Sign In/Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Cart Icon Moved Here -->
+                    <a href="#" class="icon mx-2 cart-icon" id="mobile-cart-icon">
+                        <i class="fas fa-shopping-cart" style="color: #D1A162; font-size: 1.5rem;"></i>
+                        <span class="cart-badge" id="mobile-cart-badge">0</span> <!-- Badge for item count -->
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Section -->
+    <main class="container mt-4">
+        <!-- Contact Section -->
+        <div class="container" id="contact">
+            <h2>Contact Info</h2>
+            <div class="w3-section">
+                <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Email: sewnelegance@gmail.com</p>
+            </div>
+            <p>At Sewn Elegance, we value open communication and are here to assist you with any inquiries you may have. Whether you have questions about our products, need assistance with your order, or wish to share your feedback, we would love to hear from you. Our dedicated team is committed to providing you with the best possible service, ensuring your experience with us is exceptional.</p>
+            <form id="contact-form">
+                <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="name"></p>
+                <p><input class="w3-input w3-padding-16" type="email" placeholder="Email" required name="email"></p>
+                <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="subject"></p>
+                <p><textarea class="w3-input w3-padding-16" placeholder="Message" required name="message"></textarea></p>
+                <p>
+                    <button id="submit-button" class="w3-button w3-light-grey w3-padding-large" type="submit">
+                        <i class="fa fa-paper-plane"></i> SEND MESSAGE
+                    </button>
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <!-- Cart Section -->
+    <aside class="cart-section">
+        <!-- Cart Header -->
+        <div class="cart-header">
+            <h2>My Cart</h2>
+        </div>
+        <!-- Cart Main Area -->
+        <div class="cart-content">
+            <ul id="cart-items" class="list-unstyled">
+                <!-- Cart items will be dynamically added here -->
+            </ul>
+        </div>
+        <!-- Cart Footer -->
+        <div class="cart-footer">
+            <div class="total-section">
+                <h3>Total: <span id="cart-total">$0.00</span></h3>
+            </div>
+            <div class="cart-buttons">
+                <button class="btn btn-primary btn-lg continue-shopping" id="continue-shopping">Continue Shopping</button>
+                <button class="btn btn-danger btn-lg proceed-to-checkout" id="proceed-to-checkout">Proceed to Checkout</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Footer Section -->
+    <footer class="footer text-center py-3">
+        <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
+        <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="functionality.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent the form from submitting the default way
+
+    // Collect form data
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+
+    // Create the payload for the POST request
+    const payload = {
+        name: name,
+        email: email,
+        subject: subject,
+        message: message
+    };
+
+    const submitButton = document.getElementById('submit-button'); // Get the submit button
+
+    try {
+        const response = await fetch('/send-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+
+        const responseData = await response.text();
+
+        if (response.ok) {
+            // Change button icon and text to indicate success
+            submitButton.innerHTML = '<i class="fa fa-check"></i> MESSAGE SENT';
+            // Optionally disable the button
+            submitButton.disabled = true;
+
+            // Reset the form
+            document.getElementById('contactForm').reset();
+
+            // Show success message
+            document.getElementById('responseMessage').innerText = 'Email sent successfully!';
+
+            // Reset button text and icon after 2.5 seconds
+            setTimeout(() => {
+                submitButton.innerHTML = '<i class="fa fa-paper-plane"></i> SEND MESSAGE';
+                // Optionally enable the button again
+                submitButton.disabled = false;
+            }, 2500); // 2.5 seconds
+        } else {
+            // If there was an error sending the email
+            document.getElementById('responseMessage').innerText = responseData;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('responseMessage').innerText = 'Something went wrong. Please try again later.';
+    }
+});
+
+
+</script>
+</body>
+</html>

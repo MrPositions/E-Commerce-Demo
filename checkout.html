@@ -187,7 +187,8 @@
                     </div>
                 </div>
                 <div class="col-md-6 text-center">
-                    <nav class="nav">
+                    <!-- Hidden Navigation on Mobile -->
+                    <nav class="nav d-none d-md-block">
                         <ul class="list-unstyled d-flex justify-content-center mb-0">
                             <li class="mx-4"><a href="index.html">Home</a></li>
                             <li class="mx-4"><a href="products.html">Products</a></li>
@@ -197,24 +198,52 @@
                     </nav>
                 </div>
                 <div class="col-md-3 text-md-text-center">
-                    <div class="header-icons d-flex justify-content-end align-items-center">
+                    <!-- Hidden Icons on Mobile -->
+                    <div class="header-icons d-none d-md-flex justify-content-end align-items-center">
                         <!-- Icons -->
-                        <a href="user-profile.html" class="icon mx-2">
+                        <a href="#" class="icon mx-2" id="userIcon">
                             <i class="fas fa-user"></i>
                         </a>
-                        <a href="order-status.html" class="icon mx-2">
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="previousorders.html">Previous Orders</a>
+                            <a href="login.html">SignIn/SignUp</a>
+                        </div>
+                        <a href="ordertracking.html" class="icon mx-2">
                             <i class="fas fa-truck"></i>
                         </a>
-                        <a href="#" class="icon mx-2 cart-icon" id="cart-icon">
+                        <a href="#" class="icon mx-2 cart-icon" id="pc-cart-icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cart-badge">0</span> <!-- Badge for item count -->
+                            <span class="cart-badge" id="pc-cart-badge">0</span> <!-- Badge for item count -->
                         </a>
                     </div>
+                </div>
+
+                <!-- Hamburger Menu for Mobile -->
+                <div class="col-12 d-md-none">
+                    <div class="hamburger-menu">
+                        <div class="hamburger-icon">☰</div>
+                        <div class="mobile-menu hidden" id="mobile-menu">
+                            <ul class="list-unstyled">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="products.html">Products</a></li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="previousorders.html">Previous Orders</a></li>
+                                <li><a href="ordertracking.html">Order Tracking</a></li>
+                                <li><a href="login.html">Sign In/Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Cart Icon Moved Here -->
+                    <a href="#" class="icon mx-2 cart-icon" id="mobile-cart-icon">
+                        <i class="fas fa-shopping-cart" style="color: #D1A162; font-size: 1.5rem;"></i>
+                        <span class="cart-badge" id="mobile-cart-badge">0</span> <!-- Badge for item count -->
+                    </a>
+
                 </div>
             </div>
         </div>
     </header>
-
     <!-- Main Section -->
 <main class="container mt-4 main-content">
     <h1 class="text-center">Checkout</h1>
@@ -404,44 +433,80 @@
             });
         });
 
-        // Function to update order summary
-        function updateOrderSummary() {
-            const orderSummaryDiv = document.getElementById('order-summary');
-            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || []; // Assuming cart items are stored in local storage
-            let total = 0;
+// Function to update the order summary
+function updateOrderSummary() {
+    const orderSummaryDiv = document.getElementById('order-summary');
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let subtotal = 0;
 
-            // Clear existing summary
-            orderSummaryDiv.innerHTML = '';
+    // Clear existing summary
+    orderSummaryDiv.innerHTML = '';
 
-            // Iterate through cart items and create summary
-            cartItems.forEach(item => {
-                const { name, price, quantity } = item;
-                const itemTotal = price * quantity;
-                total += itemTotal;
+    // Iterate through cart items and create summary
+    cartItems.forEach(item => {
+        console.log(item); // Log each item to check its structure
+        const { name, price, quantity } = item;
+        const itemPrice = parseFloat(price) || 0; // Convert price to number
+        const itemTotal = itemPrice * quantity;
+        subtotal += itemTotal;
 
-                const summaryItemDiv = document.createElement('div');
-                summaryItemDiv.className = 'summary-item';
-                summaryItemDiv.innerHTML = `
-                    <span>${name} (x${quantity})</span>
-                    <span>$${itemTotal.toFixed(2)}</span>
-                            `;
-            orderSummaryDiv.appendChild(summaryItemDiv);
-        });
-
-        // Add total to the summary
-        const totalDiv = document.createElement('div');
-        totalDiv.className = 'summary-item';
-        totalDiv.innerHTML = `
-            <strong>Total</strong>
-            <strong>$${total.toFixed(2)}</strong>
+        const summaryItemDiv = document.createElement('div');
+        summaryItemDiv.className = 'summary-item';
+        summaryItemDiv.innerHTML = `
+            <span>${name} (x${quantity})</span>
+            <span>$${itemTotal.toFixed(2)}</span>
         `;
-        orderSummaryDiv.appendChild(totalDiv);
-    }
+        orderSummaryDiv.appendChild(summaryItemDiv);
+    });
 
-    // Call the function on page load
-    window.onload = function() {
-        updateOrderSummary();
-    };
+    // Check if subtotal is valid
+    if (subtotal < 0) subtotal = 0; // Ensure subtotal isn't negative
+
+    // Calculate tax and shipping
+    const taxRate = 0.08; // Example tax rate of 8%
+    const shippingFee = 5.00; // Example flat shipping fee
+    const taxAmount = subtotal * taxRate;
+    const totalAmount = subtotal + taxAmount + shippingFee;
+
+    // Add subtotal, tax, shipping, and total to the summary
+    const summarySubtotalDiv = document.createElement('div');
+    summarySubtotalDiv.className = 'summary-item';
+    summarySubtotalDiv.innerHTML = `
+        <span>Subtotal</span>
+        <span>$${subtotal.toFixed(2)}</span>
+    `;
+    orderSummaryDiv.appendChild(summarySubtotalDiv);
+
+    const summaryTaxDiv = document.createElement('div');
+    summaryTaxDiv.className = 'summary-item';
+    summaryTaxDiv.innerHTML = `
+        <span>Tax</span>
+        <span>$${taxAmount.toFixed(2)}</span>
+    `;
+    orderSummaryDiv.appendChild(summaryTaxDiv);
+
+    const summaryShippingDiv = document.createElement('div');
+    summaryShippingDiv.className = 'summary-item';
+    summaryShippingDiv.innerHTML = `
+        <span>Shipping</span>
+        <span>$${shippingFee.toFixed(2)}</span>
+    `;
+    orderSummaryDiv.appendChild(summaryShippingDiv);
+
+    const summaryTotalDiv = document.createElement('div');
+    summaryTotalDiv.className = 'summary-item';
+    summaryTotalDiv.innerHTML = `
+        <strong>Total</strong>
+        <strong>$${totalAmount.toFixed(2)}</strong>
+    `;
+    orderSummaryDiv.appendChild(summaryTotalDiv);
+}
+
+// Call the function on page load
+window.onload = function() {
+    updateOrderSummary();
+};
+
 
     function selectDeliveryMethod(selectedId) {
     const methods = document.querySelectorAll('.delivery-method .method-card');
@@ -513,16 +578,48 @@ function confirmPaymentPreference() {
     }
 }
 
+// Function to handle back arrow click
+function handleBackArrowClick() {
+    $('#creditCardModal').modal('hide'); // Hide the credit card modal
+    $('#back-arrow').hide(); // Hide the back arrow
+    $('#paymentOptionsModal').modal('show'); // Show the payment options modal
+}
+
+// Attach the handleBackArrowClick function to the back arrow click event
+document.getElementById('back-arrow').addEventListener('click', handleBackArrowClick);
+
 // Function to handle PayPal payment processing
 function processPayPalPayment() {
-    console.log("Redirecting to PayPal...");
-
-    // Example PayPal URL for payment processing (customize with your details)
-    const paypalUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=YOUR_PAYPAL_EMAIL&item_name=Your+Item&amount=ITEM_PRICE&currency_code=USD";
-
-    // Redirect to PayPal
-    window.location.href = paypalUrl;
+    fetch('/create-paypal-transaction', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            orderDetails: getOrderDetails(), // Function to retrieve the current order details
+            deliveryType: selectedDeliveryMethod,
+            paymentMethod: 'paypal',
+            email: getEmailFromForm() // Retrieve the customer's email from the form
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.approvalUrl) {
+            window.location.href = data.approvalUrl; // Redirect to PayPal for payment approval
+        } else {
+            alert('Error initiating PayPal payment');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
+
+// Function to retrieve email from form (you may need to adapt this based on your form structure)
+function getEmailFromForm() {
+    return document.querySelector('#email').value; // Example: Assuming there's an email field with id="email"
+}
+
 
 // Function to process credit card payment
 function processCreditCardPayment() {
@@ -596,6 +693,29 @@ document.getElementById('credit-card-form').addEventListener('submit', function 
         return false;
     }
 
+// Function to process Cash on Delivery payment
+function processCODPayment() {
+    fetch('/create-payment-intent', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            paymentMethodId: 'cod', // No actual payment processing needed
+            email: getEmailFromForm(),
+            orderDetails: getOrderDetails(),
+            deliveryType: selectedDeliveryMethod,
+            paymentMethod: 'cod'
+        })
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url; // Redirect to the order confirmation page
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
     // Check if a delivery or pickup method is selected
     const deliveryMethod = document.querySelector('.delivery-method .method-card.selected');
     if (!deliveryMethod) {
@@ -619,7 +739,16 @@ document.getElementById('checkout-form').addEventListener('submit', function(eve
     }
 });
 
+// Function to generate tracking number
+function generateTrackingNumber() {
+    const timestamp = Date.now(); // Current timestamp
+    const randomNum = Math.floor(Math.random() * 10000); // Random number
+    return `TRK-${timestamp}-${randomNum}`; // Format: TRK-<timestamp>-<random>
+}
 
+// Generate tracking number and store it
+const trackingNumber = generateTrackingNumber();
+sessionStorage.setItem('trackingNumber', trackingNumber); // Store in sessionStorage
 
 </script>
 </body>

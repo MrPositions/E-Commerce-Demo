@@ -60,25 +60,50 @@
         margin: 0.5rem 0; /* Margin for spacing */
     }
 
-    .product-item .buy-button {
-        width: 100%; /* Make button full width */
-        padding: 0.5rem; /* Padding for better click area */
-        border: none; /* Remove default button border */
-        border-radius: 4px; /* Rounded corners */
-        background-color: #A97848; /* Primary color */
-        color: #fff; /* Button text color */
-        cursor: pointer; /* Pointer cursor on hover */
-        transition: background-color 0.3s ease; /* Smooth color transition */
-    }
+    /* Individual Product Item */
+.product-item .buy-button {
+    display: inline-block; /* Make it behave like a button */
+    width: 100%; /* Make button full width */
+    padding: 0.5rem; /* Padding for better click area */
+    border: none; /* Remove default button border */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #A97848; /* Primary color */
+    color: #fff; /* Button text color */
+    text-align: center; /* Center text inside the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+    text-decoration: none; /* Remove underline from links */
+}
 
-    .product-item .buy-button:hover {
-        background-color: #A9815E; /* Darker shade on hover */
-    }
+/* Button hover state */
+.product-item .buy-button:hover {
+    background-color: #A9815E; /* Darker shade on hover */
+}
 
-    .product-item a {
-        text-decoration: none; /* Remove underline from links */
-        color: inherit; /* Inherit color from parent */
-    }
+/* Active state to keep the button color when clicked */
+.product-item .buy-button:active {
+    background-color: #A97848; /* Keep it rustic copper on click */
+    box-shadow: none; /* Remove any default box-shadow */
+}
+
+/* Prevent default blue color in certain browsers */
+.product-item .buy-button:focus {
+    background-color: #A97848; /* Maintain rustic copper on focus */
+    outline: none; /* Remove outline when button is focused */
+}
+
+/* Additional styles for anchor tag */
+.product-item .buy-button:link,
+.product-item .buy-button:visited {
+    background-color: #A97848; /* Maintain rustic copper when link is clicked or visited */
+    color: #fff; /* Button text color */
+    outline: none; /* Prevent blue outline */
+}
+
+.product-item .buy-button:focus {
+    outline: none; /* Remove outline when button is focused */
+}
+
 
     /* Custom Styles for Categories */
 .categories-section {
@@ -145,6 +170,14 @@
     color: #333;
 }
 
+        .category-box:hover p {
+    text-decoration: underline;
+    text-decoration-color: black; /* Make the underline black on hover */
+}
+
+
+
+
 
     </style>
 </head>
@@ -159,7 +192,8 @@
                     </div>
                 </div>
                 <div class="col-md-6 text-center">
-                    <nav class="nav">
+                    <!-- Hidden Navigation on Mobile -->
+                    <nav class="nav d-none d-md-block">
                         <ul class="list-unstyled d-flex justify-content-center mb-0">
                             <li class="mx-4"><a href="index.html">Home</a></li>
                             <li class="mx-4"><a href="products.html">Products</a></li>
@@ -169,66 +203,93 @@
                     </nav>
                 </div>
                 <div class="col-md-3 text-md-text-center">
-                    <div class="header-icons d-flex justify-content-end align-items-center">
+                    <!-- Hidden Icons on Mobile -->
+                    <div class="header-icons d-none d-md-flex justify-content-end align-items-center">
                         <!-- Icons -->
-                        <a href="user-profile.html" class="icon mx-2">
+                        <a href="#" class="icon mx-2" id="userIcon">
                             <i class="fas fa-user"></i>
                         </a>
-                        <a href="order-status.html" class="icon mx-2">
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="previousorders.html">Previous Orders</a>
+                            <a href="login.html">SignIn/SignUp</a>
+                        </div>
+                        <a href="ordertracking.html" class="icon mx-2">
                             <i class="fas fa-truck"></i>
                         </a>
-                        <a href="#" class="icon mx-2 cart-icon" id="cart-icon">
+                        <a href="#" class="icon mx-2 cart-icon" id="pc-cart-icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cart-badge">0</span> <!-- Badge for item count -->
+                            <span class="cart-badge" id="pc-cart-badge">0</span> <!-- Badge for item count -->
                         </a>
                     </div>
+                </div>
+
+                <!-- Hamburger Menu for Mobile -->
+                <div class="col-12 d-md-none">
+                    <div class="hamburger-menu">
+                        <div class="hamburger-icon">☰</div>
+                        <div class="mobile-menu hidden" id="mobile-menu">
+                            <ul class="list-unstyled">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="products.html">Products</a></li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="previousorders.html">Previous Orders</a></li>
+                                <li><a href="ordertracking.html">Order Tracking</a></li>
+                                <li><a href="login.html">Sign In/Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Cart Icon Moved Here -->
+                    <a href="#" class="icon mx-2 cart-icon" id="mobile-cart-icon">
+                        <i class="fas fa-shopping-cart" style="color: #D1A162; font-size: 1.5rem;"></i>
+                        <span class="cart-badge" id="mobile-cart-badge">0</span> <!-- Badge for item count -->
+                    </a>
+
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Section -->
-    <main class="container mt-4">
-        <!-- Categories Section -->
-            <div class="categories-section">
-                <h2>Categories</h2>
-                <div class="category-boxes">
-                    <a href="headwear.html" class="category-box">
-                        <img src="images/Beanie.png" alt="Crochet Beanie Icon" class="category-icon"> <!-- Crochet Beanie icon -->
-                        <p>Headwear</p>
-                    </a>
-                    <a href="tops.html" class="category-box">
-                        <img src="images/Sweater.png" alt="Crochet Shirt Icon" class="category-icon"> <!-- Crochet shirt icon -->
-                        <p>Tops</p>
-                    </a>
-                    <a href="legs.html" class="category-box">
-                        <img src="images/Pants.png" alt="Crochet Pants Icon" class="category-icon"> <!-- Crochet pants icon -->
-                        <p>Legs</p>
-                    </a>
-                    <a href="Handwear.html" class="category-box">
-                        <img src="images/WinterGloves.png" alt="Crochet Mittens Icon" class="category-icon"> <!-- Mittens icon -->
-                        <p>Handwear</p>
-                    </a>
-                    <a href="sweaters.html" class="category-box">
-                        <img src="images/Muffler.png" alt="Crochet Scarf Icon" class="category-icon"> <!-- Crochet scarf icon -->
-                        <p>Scarves</p>
-                    </a>
-                    <a href="swimwear.html" class="category-box">
-                        <img src="images/BeachShorts.png" alt="Crochet Swimwear Icon" class="category-icon"> <!-- Swimwear icon -->
-                        <p>Swimwear</p>
-                    </a>
-                    <a href="undergarments.html" class="category-box">
-                        <img src="images/Underwear.png" alt="Crochet Undergarments Icon" class="category-icon"> <!-- Undergarment icon -->
-                        <p>Undergarments</p>
-                    </a>
-                    <a href="Footwear.html" class="category-box">
-                        <img src="images/Sock.png" alt="Crochet Socks Icon" class="category-icon"> <!-- Socks icon -->
-                        <p>Footwear</p>
-                    </a>
-                </div>
+<main class="container mt-4">
+    <!-- Categories Section -->
+    <div class="categories-section">
+        <h2>Categories</h2>
+        <div class="category-boxes">
+            <div class="category-box">
+                <img src="images/Beanie.png" alt="Crochet Beanie Icon" class="category-icon"> <!-- Crochet Beanie icon -->
+                <p>Headwear</p>
             </div>
-
+            <div class="category-box">
+                <img src="images/Sweater.png" alt="Crochet Shirt Icon" class="category-icon"> <!-- Crochet shirt icon -->
+                <p>Tops</p>
+            </div>
+            <div class="category-box">
+                <img src="images/Pants.png" alt="Crochet Pants Icon" class="category-icon"> <!-- Crochet pants icon -->
+                <p>Legs</p>
+            </div>
+            <div class="category-box">
+                <img src="images/WinterGloves.png" alt="Crochet Mittens Icon" class="category-icon"> <!-- Mittens icon -->
+                <p>Handwear</p>
+            </div>
+            <div class="category-box">
+                <img src="images/Muffler.png" alt="Crochet Scarf Icon" class="category-icon"> <!-- Crochet scarf icon -->
+                <p>Scarves</p>
+            </div>
+            <div class="category-box">
+                <img src="images/BeachShorts.png" alt="Crochet Swimwear Icon" class="category-icon"> <!-- Swimwear icon -->
+                <p>Swimwear</p>
+            </div>
+            <div class="category-box">
+                <img src="images/Underwear.png" alt="Crochet Undergarments Icon" class="category-icon"> <!-- Undergarment icon -->
+                <p>Underwear</p>
+            </div>
+            <div class="category-box">
+                <img src="images/Sock.png" alt="Crochet Socks Icon" class="category-icon"> <!-- Socks icon -->
+                <p>Footwear</p>
+            </div>
         </div>
+    </div>
 
         <!-- Search Bar -->
         <div class="search-bar mb-4">
@@ -244,40 +305,76 @@
             <!-- Example Product Item -->
             <div class="col-md-3 mb-4">
                 <div class="product-item" data-category="headwear">
-                        <img src="images/product1.jpg" alt="Product Name" class="img-fluid">
-                        <h3>Product Name 1</h3>
-                        <p>Short description of the product.</p>
-                        <span class="price">$XX.XX</span>
-                        <a href="product-details.html" class="btn btn-primary buy-button">Buy Now</a>
+                    <img src="images/product1.jpg" alt="Product Name" class="img-fluid">
+                    <h3>Product Name 1</h3>
+                    <p>Short description of the product.</p>
+                    <span class="price">$XX.XX</span>
+                    <button class="buy-button" onclick="window.location.href='product-details.html'">Buy Now</button>
                 </div>
             </div>
             <div class="col-md-3 mb-4">
                 <div class="product-item" data-category="top">
-                        <img src="images/product2.jpg" alt="Product Name" class="img-fluid">
-                        <h3>Product Name 2</h3>
-                        <p>Short description of the product.</p>
-                        <span class="price">$XX.XX</span>
-                        <a href="product-details.html" class="btn btn-primary buy-button">Buy Now</a>
+                    <img src="images/product1.jpg" alt="Product Name" class="img-fluid">
+                    <h3>Product Name 2</h3>
+                    <p>Short description of the product.</p>
+                    <span class="price">$XX.XX</span>
+                    <button class="buy-button" onclick="window.location.href='product-details.html'">Buy Now</button>
                 </div>
             </div>
             <div class="col-md-3 mb-4">
-                <div class="product-item">
+                <div class="product-item" data-category="pants">
                         <img src="images/product3.jpg" alt="Product Name" class="img-fluid">
                         <h3>Product Name 3</h3>
                         <p>Short description of the product.</p>
                         <span class="price">$XX.XX</span>
-                        <a href="product-details.html" class="btn btn-primary buy-button">Buy Now</a>
+                        <button class="buy-button" onclick="window.location.href='product-details.html'">Buy Now</button>
                 </div>
             </div>
             <div class="col-md-3 mb-4">
-                <div class="product-item">
+                <div class="product-item" data-category="gloves">
                         <img src="images/product4.jpg" alt="Product Name" class="img-fluid">
                         <h3>Product Name 4</h3>
                         <p>Short description of the product.</p>
                         <span class="price">$XX.XX</span>
-                        <a href="product-details.html" class="btn btn-primary buy-button">Buy Now</a>
+                        <button class="buy-button" onclick="window.location.href='product-details.html'">Buy Now</button>
                 </div>
             </div>
+             <div class="col-md-3 mb-4">
+                <div class="product-item" data-category="scarf">
+                        <img src="images/product4.jpg" alt="Product Name" class="img-fluid">
+                        <h3>Product Name 5</h3>
+                        <p>Short description of the product.</p>
+                        <span class="price">$XX.XX</span>
+                        <button class="buy-button" onclick="window.location.href='product-details.html'">Buy Now</button>
+                </div>
+             </div>
+             <div class="col-md-3 mb-4">
+                <div class="product-item" data-category="swimwear">
+                        <img src="images/product4.jpg" alt="Product Name" class="img-fluid">
+                        <h3>Product Name 6</h3>
+                        <p>Short description of the product.</p>
+                        <span class="price">$XX.XX</span>
+                        <button class="buy-button" onclick="window.location.href='product-details.html'">Buy Now</button>
+                </div>
+             </div>
+             <div class="col-md-3 mb-4">
+                <div class="product-item" data-category="underwear">
+                        <img src="images/product4.jpg" alt="Product Name" class="img-fluid">
+                        <h3>Product Name 7</h3>
+                        <p>Short description of the product.</p>
+                        <span class="price">$XX.XX</span>
+                        <button class="buy-button" onclick="window.location.href='product-details.html'">Buy Now</button>
+                </div>
+             </div>
+             <div class="col-md-3 mb-4">
+                <div class="product-item" data-category="socks">
+                        <img src="images/product4.jpg" alt="Product Name" class="img-fluid">
+                        <h3>Product Name 8</h3>
+                        <p>Short description of the product.</p>
+                        <span class="price">$XX.XX</span>
+                        <button class="buy-button" onclick="window.location.href='product-details.html'">Buy Now</button>
+                </div>
+             </div>
             <!-- Add more product items as needed -->
         </div>
     </main>
@@ -294,6 +391,7 @@
                 <!-- Cart items will be dynamically added here -->
             </ul>
         </div>
+
         <!-- Cart Footer -->
         <div class="cart-footer">
             <div class="total-section">
@@ -305,6 +403,7 @@
             </div>
         </div>
     </aside>
+
 
     <!-- Footer Section -->
     <footer class="footer text-center py-3">
@@ -318,54 +417,53 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="functionality.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
     const categoryBoxes = document.querySelectorAll('.category-box');
     const productItems = document.querySelectorAll('.product-item');
 
+
     categoryBoxes.forEach(box => {
-        box.addEventListener('click', function(e) {
-            e.preventDefault();
+            box.addEventListener('click', function(e) {
+                e.preventDefault();
 
-            // Remove the selected effect from all category boxes
-            categoryBoxes.forEach(box => {
-                box.classList.remove('selected-category');
-            });
+                // Remove the selected effect from all category boxes
+                categoryBoxes.forEach(box => {
+                    box.classList.remove('selected-category');
+                });
 
-            // Add the selected effect to the clicked category box
-            this.classList.add('selected-category');
+                // Add the selected effect to the clicked category box
+                this.classList.add('selected-category');
 
-            // Get the selected category
-            const category = this.querySelector('p').textContent.toLowerCase();
+                // Get the selected category
+                const category = this.querySelector('p').textContent.toLowerCase();
 
-            // Map categories to their respective tags
-            const categoryMap = {
-                'headwear': ['hat', 'beanie', 'headwear'],
-                'tops': ['top', 'shirt', 'sweater', 'jacket'],
-                'legs': ['pants', 'leggings', 'shorts'],
-                'handwear': ['gloves', 'mittens', 'handwear'],
-                'scarves': ['scarf', 'muffler'],
-                'swimwear': ['swimming trunks', 'bikini', 'swimwear'],
-                'undergarments': ['underwear', 'briefs', 'boxers', 'bras', 'panties', 'lingerie', 'corset', 'vest'],
-                'footwear': ['socks', 'slippers', 'shoes', 'footwear']
-            };
+                // Map categories to their respective tags
+                const categoryMap = {
+                    'headwear': ['hat', 'beanie', 'headwear'],
+                    'tops': ['top', 'shirt', 'sweater', 'jacket'],
+                    'legs': ['pants', 'leggings', 'shorts'],
+                    'handwear': ['gloves', 'mittens', 'handwear'],
+                    'scarves': ['scarf', 'muffler'],
+                    'swimwear': ['swimming trunks', 'bikini', 'swimwear'],
+                    'undergarments': ['underwear', 'briefs', 'boxers', 'bras', 'panties', 'lingerie', 'corset', 'vest'],
+                    'footwear': ['socks', 'slippers', 'shoes', 'footwear']
+                };
 
-            // Get the relevant tags for the selected category
-            const relevantTags = categoryMap[category];
+                // Get the relevant tags for the selected category
+                const relevantTags = categoryMap[category];
 
-            // Show or hide product items based on category
-            productItems.forEach(item => {
-                const itemCategory = item.getAttribute('data-category')?.toLowerCase(); // Using optional chaining to handle missing data-category attribute
+                // Show or hide product items based on category
+                productItems.forEach(item => {
+                    const itemCategory = item.getAttribute('data-category')?.toLowerCase(); // Using optional chaining to handle missing data-category attribute
 
-                // Hide the item if it has no category or doesn't match the relevant tags
-                if (!itemCategory || !relevantTags.includes(itemCategory)) {
-                    item.style.display = 'none';
-                } else {
-                    item.style.display = 'block';
-                }
+                    // Hide the item if it has no category or doesn't match the relevant tags
+                    if (!itemCategory || !relevantTags.includes(itemCategory)) {
+                        item.style.display = 'none';
+                    } else {
+                        item.style.display = 'block';
+                    }
+                });
             });
         });
-    });
-});
 
     </script>
 

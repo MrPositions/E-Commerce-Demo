@@ -20,7 +20,8 @@
                     </div>
                 </div>
                 <div class="col-md-6 text-center">
-                    <nav class="nav">
+                    <!-- Hidden Navigation on Mobile -->
+                    <nav class="nav d-none d-md-block">
                         <ul class="list-unstyled d-flex justify-content-center mb-0">
                             <li class="mx-4"><a href="index.html">Home</a></li>
                             <li class="mx-4"><a href="products.html">Products</a></li>
@@ -30,24 +31,52 @@
                     </nav>
                 </div>
                 <div class="col-md-3 text-md-text-center">
-                    <div class="header-icons d-flex justify-content-end align-items-center">
+                    <!-- Hidden Icons on Mobile -->
+                    <div class="header-icons d-none d-md-flex justify-content-end align-items-center">
                         <!-- Icons -->
-                        <a href="user-profile.html" class="icon mx-2">
+                        <a href="#" class="icon mx-2" id="userIcon">
                             <i class="fas fa-user"></i>
                         </a>
-                        <a href="order-status.html" class="icon mx-2">
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="previousorders.html">Previous Orders</a>
+                            <a href="login.html">SignIn/SignUp</a>
+                        </div>
+                        <a href="ordertracking.html" class="icon mx-2">
                             <i class="fas fa-truck"></i>
                         </a>
-                        <a href="#" class="icon mx-2 cart-icon" id="cart-icon">
+                        <a href="#" class="icon mx-2 cart-icon" id="pc-cart-icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cart-badge">0</span> <!-- Badge for item count -->
+                            <span class="cart-badge" id="pc-cart-badge">0</span> <!-- Badge for item count -->
                         </a>
                     </div>
+                </div>
+
+                <!-- Hamburger Menu for Mobile -->
+                <div class="col-12 d-md-none">
+                    <div class="hamburger-menu">
+                        <div class="hamburger-icon">☰</div>
+                        <div class="mobile-menu hidden" id="mobile-menu">
+                            <ul class="list-unstyled">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="products.html">Products</a></li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="previousorders.html">Previous Orders</a></li>
+                                <li><a href="ordertracking.html">Order Tracking</a></li>
+                                <li><a href="login.html">Sign In/Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Cart Icon Moved Here -->
+                    <a href="#" class="icon mx-2 cart-icon" id="mobile-cart-icon">
+                        <i class="fas fa-shopping-cart" style="color: #D1A162; font-size: 1.5rem;"></i>
+                        <span class="cart-badge" id="mobile-cart-badge">0</span> <!-- Badge for item count -->
+                    </a>
+
                 </div>
             </div>
         </div>
     </header>
-
     <!-- Main Section -->
     <main class="container mt-4">
         <!-- Search Bar -->
@@ -70,26 +99,27 @@
                     <h1>Product Name</h1>
                     <p>Detailed description of the product goes here. This section can include features, benefits, and any other relevant information.</p>
 
-                    <!-- Product Options -->
-                    <div class="product-options mt-4">
-                        <div class="styles mb-3">
-                            <h3>Styles</h3>
-                            <ul class="list-unstyled d-flex">
-                                <li class="mx-2 style-option-container">
-                                    <img src="images/GrannySquarePants1.png" alt="Style 1" class="img-fluid style-option" data-style="style1">
-                                </li>
-                                <li class="mx-2 style-option-container">
-                                    <img src="images/GrannySquarePants2.png" alt="Style 2" class="img-fluid style-option" data-style="style2">
-                                </li>
-                                <li class="mx-2 style-option-container">
-                                    <img src="images/GrannySquarePants3.png" alt="Style 3" class="img-fluid style-option" data-style="style3">
-                                </li>
-                            </ul>
-                        </div>
-
+                <!-- Product Options -->
+                <div class="product-options mt-4">
+                    <div class="styles mb-3">
+                        <h3>Styles</h3>
+                        <ul class="list-unstyled d-flex">
+                            <li class="mx-2 style-option-container">
+                                <img src="images/GrannySquarePants1.png" alt="Style 1" class="img-fluid style-option" data-style="style1">
+                            </li>
+                            <li class="mx-2 style-option-container">
+                                <img src="images/GrannySquarePants2.png" alt="Style 2" class="img-fluid style-option" data-style="style2">
+                            </li>
+                            <li class="mx-2 style-option-container">
+                                <img src="images/GrannySquarePants3.png" alt="Style 3" class="img-fluid style-option" data-style="style3">
+                            </li>
+                        </ul>
                     </div>
+                </div>
 
-                    <span class="price d-block mb-3">$XX.XX</span>
+                <!-- Price Section -->
+                <span class="price d-block mb-3 product-price">$25.00</span>
+
 
                     <!-- Buttons below Price -->
                     <div class="product-buttons mt-4">

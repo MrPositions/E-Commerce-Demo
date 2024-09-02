@@ -3,29 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation</title>
+    <title>About Us - Sewn Elegance</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .tracking-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333; /* Text color */
-        }
-
-        .tracking-link {
-            color: #333; /* Match the tracking number color */
-            text-decoration: none; /* Remove underline */
-        }
-
-        .tracking-link:hover {
-            color: #333; /* Match the tracking number color */
-            text-decoration: underline; /* Underline on hover for better UX */
-        }
-
-    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -97,35 +79,25 @@
     </header>
 
     <!-- Main Section -->
-    <main class="container mt-4 text-center">
-        <h1>Order Successful</h1>
-        <p class="lead">
-            Your order has been successfully received. We will contact you shortly to confirm your purchase.
-            <br><br>
-            <span class="order-note">
-                Please note that while we strive to respond promptly, it may take up to 1-2 business days to process your order.
-            </span>
-        </p>
+    <main class="container mt-4">
+        <h1 class="text-center mb-4">About Us</h1>
+        <p>Welcome to <strong>Sewn Elegance</strong>, where fashion meets artistry. We are a small business dedicated to creating high-quality clothing that embodies elegance and style. Our journey began with a passion for design and a desire to provide our customers with garments that not only look good but also feel good. Each piece is crafted with care, ensuring that our commitment to quality is evident in every stitch.</p>
 
-        <!-- Tracking Number Display -->
-        <div class="tracking-number mt-4">
-            <span id="tracking-number"></span>
-        </div>
+        <p>At Sewn Elegance, we take pride in our ability to blend contemporary trends with timeless classics, resulting in a collection that suits a variety of tastes and occasions. We believe that clothing should reflect individuality, and we strive to offer pieces that allow our customers to express themselves uniquely.</p>
+
+        <p>We are dedicated to building meaningful relationships with our customers. Your support helps us grow and innovate while maintaining the personal touch that distinguishes us from larger retailers. Thank you for choosing Sewn Elegance. We look forward to being a part of your wardrobe and your journey in style!</p>
     </main>
 
     <!-- Cart Section -->
     <aside class="cart-section">
-        <!-- Cart Header -->
         <div class="cart-header">
             <h2>My Cart</h2>
         </div>
-        <!-- Cart Main Area -->
         <div class="cart-content">
             <ul id="cart-items" class="list-unstyled">
                 <!-- Cart items will be dynamically added here -->
             </ul>
         </div>
-        <!-- Cart Footer -->
         <div class="cart-footer">
             <div class="total-section">
                 <h3>Total: <span id="cart-total">$0.00</span></h3>
@@ -143,30 +115,12 @@
         <p>Development and Design by <a href="https://mrpositions.github.io/Metal-Kittens-Portfolio/" class="footer-link" target="_blank" rel="noopener noreferrer">Metal Kittens Software Developers</a></p>
     </footer>
 
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script src="functionality.js"></script>
-    <script>
-        // Function to display tracking number
-        function displayTrackingNumber() {
-            const trackingNumber = sessionStorage.getItem('trackingNumber'); // Retrieve from sessionStorage
-            const trackingNumberDiv = document.getElementById('tracking-number');
-
-            if (trackingNumber) {
-                // Create a link to the order tracking page
-                const trackingLink = `<a href="ordertracking.html?tracking=${trackingNumber}" class="tracking-link">${trackingNumber}</a>`;
-                trackingNumberDiv.innerHTML = `Tracking Number: ${trackingLink}`; // Insert the link into the div
-            } else {
-                trackingNumberDiv.textContent = 'Tracking Number: Not available'; // Fallback if not found
-            }
-        }
-
-        // Call the function on page load
-        window.onload = function() {
-            displayTrackingNumber();
-        };
-
-    </script>
 </body>
 </html>

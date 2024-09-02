@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Handle the hamburger menu toggle for mobile
+    const hamburgerIcon = document.querySelector('.hamburger-icon');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (hamburgerIcon && mobileMenu) {
+        hamburgerIcon.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+
     // Handle tab switching
     document.querySelectorAll('.tab-button').forEach(button => {
         button.addEventListener('click', () => {
@@ -9,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector(`.tab-content.${button.dataset.tab}`).style.display = 'block';
         });
     });
+
 
     // Handle color selection
     document.querySelectorAll('.color-button').forEach(button => {
@@ -49,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const productName = productItem.querySelector('h1')?.textContent || '';
             const productImage = productItem.querySelector('.product-image img')?.src || '';
             const productPrice = productItem.querySelector('.price')?.textContent || '';
+            const numericPrice = parseFloat(productPrice.replace(/[^0-9.-]+/g, '')); // Convert price to number
             const selectedColor = document.querySelector('.color-button.selected')?.getAttribute('data-color') || '';
             const selectedStyleIndex = [...document.querySelectorAll('.style-option')].indexOf(document.querySelector('.styles li.selected .style-option')) + 1;
             const styleIdentifier = selectedStyleIndex ? `-S${selectedStyleIndex}` : '';
@@ -155,25 +167,50 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCartTotal();
     }
 
-    // Function to update the cart total
-    function updateCartTotal() {
-        let total = 0;
-        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        cartItems.forEach(item => {
-            const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')); // Extract numeric value from text
-            total += price * item.quantity;
-        });
+// Function to update the cart total with tax and shipping
+function updateCartTotal() {
+    let subtotal = 0;
+    const taxRate = 0.08; // Example tax rate of 8%
+    const shippingFee = 5.00; // Example flat shipping fee
 
-        // Display total
-        document.querySelector('.cart-total').textContent = `Total: $${total.toFixed(2)}`;
-    }
+    // Retrieve cart items from local storage
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-    // Function to update the cart badge count
-    function updateCartBadge() {
-        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        const uniqueItems = new Set(cartItems.map(item => `${item.name}-${item.color}`));
-        document.getElementById('cart-badge').textContent = uniqueItems.size;
-    }
+    // Calculate subtotal
+    cartItems.forEach(item => {
+        const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')); // Extract numeric value from text
+        subtotal += price * item.quantity; // Update subtotal based on item quantity
+    });
+
+    // Calculate tax amount and total amount
+    const taxAmount = subtotal * taxRate;
+    const totalAmount = subtotal + taxAmount + shippingFee;
+
+    // Display subtotal, tax, shipping fee, and total in the designated area
+    document.querySelector('.cart-total').innerHTML = `
+        <p>Subtotal: $${subtotal.toFixed(2)}</p>
+        <p>Tax: $${taxAmount.toFixed(2)}</p>
+        <p>Shipping: $${shippingFee.toFixed(2)}</p>
+        <p><strong>Total: $${totalAmount.toFixed(2)}</strong></p>
+    `;
+
+    // Update the total in the cart footer
+    document.getElementById('cart-total').innerText = `$${subtotal.toFixed(2)}`; // Update to show just subtotal
+}
+
+
+ function updateCartBadge() {
+    // Get cart items from local storage
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    // Count the number of unique items in the cart
+    const uniqueItemsCount = cartItems.length;
+
+    // Update the badge for both PC and mobile
+    document.getElementById('pc-cart-badge').textContent = uniqueItemsCount;
+    document.getElementById('mobile-cart-badge').textContent = uniqueItemsCount;
+}
+
 
     // Function to update cart quantity
     function updateCartQuantity(name, color, quantity) {
@@ -186,6 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
         updateCartDisplay();
+        updateCartTotal(); // Ensure total is updated after quantity change
         updateCartBadge();
     }
 
@@ -196,35 +234,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Handle cart section open/close
-    const cartIcon = document.getElementById('cart-icon');
-    const cartSection = document.querySelector('.cart-section');
+// Handle cart section open/close
+const cartIconPC = document.getElementById('pc-cart-icon');
+const cartIconMobile = document.getElementById('mobile-cart-icon');
+const cartSection = document.querySelector('.cart-section');
 
-    cartIcon.addEventListener('click', () => {
+if (cartIconPC) {
+    cartIconPC.addEventListener('click', () => {
         cartSection.classList.toggle('open');
         updateCartDisplay(); // Ensure cart items are displayed when opening the cart
     });
+}
 
-    document.getElementById('continue-shopping').addEventListener('click', () => {
-        cartSection.classList.remove('open');
+if (cartIconMobile) {
+    cartIconMobile.addEventListener('click', () => {
+        cartSection.classList.toggle('open');
+        updateCartDisplay(); // Ensure cart items are displayed when opening the cart
     });
+}
 
-    document.getElementById('proceed-to-checkout').addEventListener('click', () => {
-        window.location.href = 'checkout.html';
-    });
+document.getElementById('continue-shopping').addEventListener('click', () => {
+    cartSection.classList.remove('open');
+});
 
-    // Update cart badge on every page load
-    updateCartBadge();
+document.getElementById('proceed-to-checkout').addEventListener('click', () => {
+    window.location.href = 'checkout.html';
+});
 
-    // Clear the cart on the order confirmation page
-    if (window.location.pathname.endsWith('orderconfirmation.html')) {
-        localStorage.removeItem('cartItems');
-        updateCartDisplay();
-        updateCartBadge();
-    }
+// Update cart badge on every page load
+updateCartBadge();
 
-    // Initial display update for cart items when the page loads
+// Clear the cart on the order confirmation page
+if (window.location.pathname.endsWith('orderconfirmation.html')) {
+    localStorage.removeItem('cartItems');
     updateCartDisplay();
+    updateCartBadge();
+}
+
+// Initial display update for cart items when the page loads
+updateCartDisplay();
 });
 
 
@@ -248,3 +296,18 @@ searchInput.addEventListener('keydown', (event) => {
         executeSearch();
     }
 });
+
+document.getElementById('userIcon').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default anchor behavior
+    const dropdown = document.getElementById('userDropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+document.addEventListener('click', function(event) {
+    const icon = document.getElementById('userIcon');
+    const dropdown = document.getElementById('userDropdown');
+    if (!icon.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = 'none'; // Close the dropdown if clicked outside
+    }
+});
+

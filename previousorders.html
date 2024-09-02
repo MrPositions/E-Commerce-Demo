@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation</title>
+    <title>Previous Orders</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .tracking-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333; /* Text color */
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
         }
 
-        .tracking-link {
-            color: #333; /* Match the tracking number color */
-            text-decoration: none; /* Remove underline */
+        .order-date {
+            font-size: 0.9rem;
+            color: #555;
         }
 
-        .tracking-link:hover {
-            color: #333; /* Match the tracking number color */
-            text-decoration: underline; /* Underline on hover for better UX */
+        .reorder-btn {
+            background-color: #A97848;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
 
+        .reorder-btn:hover {
+            background-color: #A9815E;
+        }
     </style>
 </head>
 <body>
@@ -98,19 +104,10 @@
 
     <!-- Main Section -->
     <main class="container mt-4 text-center">
-        <h1>Order Successful</h1>
-        <p class="lead">
-            Your order has been successfully received. We will contact you shortly to confirm your purchase.
-            <br><br>
-            <span class="order-note">
-                Please note that while we strive to respond promptly, it may take up to 1-2 business days to process your order.
-            </span>
-        </p>
+        <h1>Previous Orders</h1>
+        <p class="lead">Here are your previous successful orders:</p>
 
-        <!-- Tracking Number Display -->
-        <div class="tracking-number mt-4">
-            <span id="tracking-number"></span>
-        </div>
+        <div id="orders-container"></div>
     </main>
 
     <!-- Cart Section -->
@@ -125,6 +122,7 @@
                 <!-- Cart items will be dynamically added here -->
             </ul>
         </div>
+
         <!-- Cart Footer -->
         <div class="cart-footer">
             <div class="total-section">
@@ -148,25 +146,102 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="functionality.js"></script>
     <script>
-        // Function to display tracking number
-        function displayTrackingNumber() {
-            const trackingNumber = sessionStorage.getItem('trackingNumber'); // Retrieve from sessionStorage
-            const trackingNumberDiv = document.getElementById('tracking-number');
+        // Function to fetch and display previous orders
+        async function fetchPreviousOrders() {
+            try {
+                const response = await fetch('/api/my-orders', {
+                    method: 'GET',
+                    credentials: 'include', // Include credentials for authentication
+                });
 
-            if (trackingNumber) {
-                // Create a link to the order tracking page
-                const trackingLink = `<a href="ordertracking.html?tracking=${trackingNumber}" class="tracking-link">${trackingNumber}</a>`;
-                trackingNumberDiv.innerHTML = `Tracking Number: ${trackingLink}`; // Insert the link into the div
-            } else {
-                trackingNumberDiv.textContent = 'Tracking Number: Not available'; // Fallback if not found
+                if (!response.ok) {
+                    throw new Error('Failed to fetch orders');
+                }
+
+                const orders = await response.json();
+                displayPreviousOrders(orders);
+            } catch (error) {
+                console.error('Error fetching previous orders:', error);
+                document.getElementById('orders-container').innerHTML = '<p>Error fetching previous orders. Please try again later.</p>';
             }
+        }
+
+        // Function to display previous orders
+        function displayPreviousOrders(orders) {
+            const ordersContainer = document.getElementById('orders-container');
+            ordersContainer.innerHTML = '';
+
+            if (orders.length === 0) {
+                ordersContainer.innerHTML = '<p>No previous orders found.</p>';
+                return;
+            }
+
+            // Reverse the order to show the most recent first
+            const sortedOrders = orders.reverse();
+
+            sortedOrders.forEach(order => {
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card';
+
+                const orderDate = document.createElement('div');
+                orderDate.className = 'order-date';
+                orderDate.textContent = `Order Date: ${new Date(order.orderDate).toLocaleDateString()}`;
+
+                const itemsList = document.createElement('ul');
+                itemsList.className = 'list-unstyled';
+                order.items.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${item.name} (Quantity: ${item.quantity})`;
+                    itemsList.appendChild(listItem);
+                });
+
+                const reorderButton = document.createElement('button');
+                reorderButton.className = 'reorder-btn';
+                reorderButton.textContent = 'Reorder';
+                reorderButton.onclick = () => repopulateCart(order.items);
+
+                orderCard.appendChild(orderDate);
+                orderCard.appendChild(itemsList);
+                orderCard.appendChild(reorderButton);
+                ordersContainer.appendChild(orderCard);
+            });
+        }
+
+        // Function to repopulate the cart and redirect to checkout
+        function repopulateCart(items) {
+            // Retrieve the current cart from localStorage or initialize an empty array if none exists
+            let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+            items.forEach(item => {
+                // Check if the item already exists in the cart
+                const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+
+                if (existingItemIndex > -1) {
+                    // If the item exists, update the quantity
+                    cart[existingItemIndex].quantity += item.quantity;
+                } else {
+                    // If the item doesn't exist, add it to the cart
+                    cart.push({
+                        id: item.id,
+                        name: item.name, // Assuming the name is required in your cart structure
+                        quantity: item.quantity,
+                        style: item.style, // Include other necessary details like style, if applicable
+                        // Add any other details necessary for each cart item
+                    });
+                }
+            });
+
+            // Save the updated cart back to localStorage
+            localStorage.setItem('cartItems', JSON.stringify(cart));
+
+            // Redirect to the checkout page
+            window.location.href = 'checkout.html';
         }
 
         // Call the function on page load
         window.onload = function() {
-            displayTrackingNumber();
+            fetchPreviousOrders();
         };
-
     </script>
 </body>
 </html>

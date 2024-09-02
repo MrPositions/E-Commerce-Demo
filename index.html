@@ -63,7 +63,8 @@
                     </div>
                 </div>
                 <div class="col-md-6 text-center">
-                    <nav class="nav">
+                    <!-- Hidden Navigation on Mobile -->
+                    <nav class="nav d-none d-md-block">
                         <ul class="list-unstyled d-flex justify-content-center mb-0">
                             <li class="mx-4"><a href="index.html">Home</a></li>
                             <li class="mx-4"><a href="products.html">Products</a></li>
@@ -73,24 +74,52 @@
                     </nav>
                 </div>
                 <div class="col-md-3 text-md-text-center">
-                    <div class="header-icons d-flex justify-content-end align-items-center">
+                    <!-- Hidden Icons on Mobile -->
+                    <div class="header-icons d-none d-md-flex justify-content-end align-items-center">
                         <!-- Icons -->
-                        <a href="user-profile.html" class="icon mx-2">
+                        <a href="#" class="icon mx-2" id="userIcon">
                             <i class="fas fa-user"></i>
                         </a>
-                        <a href="order-status.html" class="icon mx-2">
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="previousorders.html">Previous Orders</a>
+                            <a href="login.html">SignIn/SignUp</a>
+                        </div>
+                        <a href="ordertracking.html" class="icon mx-2">
                             <i class="fas fa-truck"></i>
                         </a>
-                        <a href="#" class="icon mx-2 cart-icon" id="cart-icon">
+                        <a href="#" class="icon mx-2 cart-icon" id="pc-cart-icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cart-badge">0</span> <!-- Badge for item count -->
+                            <span class="cart-badge" id="pc-cart-badge">0</span> <!-- Badge for item count -->
                         </a>
                     </div>
+                </div>
+
+                <!-- Hamburger Menu for Mobile -->
+                <div class="col-12 d-md-none">
+                    <div class="hamburger-menu">
+                        <div class="hamburger-icon">☰</div>
+                        <div class="mobile-menu hidden" id="mobile-menu">
+                            <ul class="list-unstyled">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="products.html">Products</a></li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="previousorders.html">Previous Orders</a></li>
+                                <li><a href="ordertracking.html">Order Tracking</a></li>
+                                <li><a href="login.html">Sign In/Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Cart Icon Moved Here -->
+                    <a href="#" class="icon mx-2 cart-icon" id="mobile-cart-icon">
+                        <i class="fas fa-shopping-cart" style="color: #D1A162; font-size: 1.5rem;"></i>
+                        <span class="cart-badge" id="mobile-cart-badge">0</span> <!-- Badge for item count -->
+                    </a>
+
                 </div>
             </div>
         </div>
     </header>
-
     <!-- Main Section -->
     <main class="container mt-4 main-content">
 
@@ -148,7 +177,7 @@
                     <div class="d-flex justify-content-center">
                         <div class="category-box mx-2">
                             <img src="images/Underwear.png" alt="Crochet Scarf Icon" class="category-icon">
-                            <p>Undergarments</p>
+                            <p>Underwear</p>
                         </div>
                         <div class="category-box mx-2">
                             <img src="images/Sock.png" alt="Crochet Sock Icon" class="category-icon">
@@ -181,7 +210,7 @@
             <div class="d-flex justify-content-center">
                 <div class="category-box mx-2">
                     <img src="images/Underwear.png" alt="Crochet Underwear Icon" class="category-icon">
-                    <p>Undergarments</p>
+                    <p>Underwear</p>
                 </div>
                 <div class="category-box mx-2">
                     <img src="images/Sock.png" alt="Crochet Sock Icon" class="category-icon">

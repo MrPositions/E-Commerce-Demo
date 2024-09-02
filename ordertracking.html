@@ -3,27 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation</title>
+    <title>Order Tracking</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .tracking-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333; /* Text color */
+
+        .arrow-button {
+            background: none; /* Remove background */
+            border: none; /* Remove border */
+            padding: 0; /* Remove padding */
+            cursor: pointer;
+            display: flex; /* Flex for centering the icon */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            outline: none; /* Remove default outline */
+            margin-left: -1px; /* Adjust margin to eliminate gap between input and button */
         }
 
-        .tracking-link {
-            color: #333; /* Match the tracking number color */
-            text-decoration: none; /* Remove underline */
+        .arrow-button i {
+            font-size: 1.2rem; /* Adjust icon size */
+            color: #A97848; /* Icon color */
         }
 
-        .tracking-link:hover {
-            color: #333; /* Match the tracking number color */
-            text-decoration: underline; /* Underline on hover for better UX */
+        .arrow-button:hover {
+            background-color: rgba(0, 123, 255, 0.1); /* Light background on hover */
         }
+
 
     </style>
 </head>
@@ -95,21 +102,32 @@
             </div>
         </div>
     </header>
-
     <!-- Main Section -->
     <main class="container mt-4 text-center">
-        <h1>Order Successful</h1>
-        <p class="lead">
-            Your order has been successfully received. We will contact you shortly to confirm your purchase.
-            <br><br>
-            <span class="order-note">
-                Please note that while we strive to respond promptly, it may take up to 1-2 business days to process your order.
-            </span>
-        </p>
+        <h1>Track Your Order</h1>
+        <p class="lead">Enter your tracking number to view the current status of your order.</p>
 
-        <!-- Tracking Number Display -->
-        <div class="tracking-number mt-4">
-            <span id="tracking-number"></span>
+        <!-- Search Bar -->
+        <div class="search-bar mt-4">
+            <input type="text" id="trackingNumber" placeholder="Enter your tracking number" required>
+            <button class="arrow-button" onclick="submitTracking(event)">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Tracking Info Display -->
+        <div class="tracking-info mt-4">
+            <span id="tracking-info"></span>
+        </div>
+
+        <!-- Tracking Status -->
+        <div class="tracking-status mt-4">
+            <span id="tracking-status"></span>
+        </div>
+
+        <!-- Tracking Status Details -->
+        <div class="tracking-status-details mt-4">
+            <span id="tracking-status-details"></span>
         </div>
     </main>
 
@@ -125,6 +143,7 @@
                 <!-- Cart items will be dynamically added here -->
             </ul>
         </div>
+
         <!-- Cart Footer -->
         <div class="cart-footer">
             <div class="total-section">
@@ -137,6 +156,7 @@
         </div>
     </aside>
 
+
     <!-- Footer Section -->
     <footer class="footer text-center py-3">
         <p>&copy; 2024 Sewn Elegance. All rights reserved.</p>
@@ -148,25 +168,72 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="functionality.js"></script>
     <script>
-        // Function to display tracking number
-        function displayTrackingNumber() {
-            const trackingNumber = sessionStorage.getItem('trackingNumber'); // Retrieve from sessionStorage
-            const trackingNumberDiv = document.getElementById('tracking-number');
+        // Function to display tracking information
+        function displayTrackingInfo() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const trackingNumber = urlParams.get('tracking');
+            const trackingInput = document.getElementById('trackingNumber');
+            const trackingInfoDiv = document.getElementById('tracking-info');
+            const trackingStatusDiv = document.getElementById('tracking-status');
+            const trackingStatusDetailsDiv = document.getElementById('tracking-status-details');
 
             if (trackingNumber) {
-                // Create a link to the order tracking page
-                const trackingLink = `<a href="ordertracking.html?tracking=${trackingNumber}" class="tracking-link">${trackingNumber}</a>`;
-                trackingNumberDiv.innerHTML = `Tracking Number: ${trackingLink}`; // Insert the link into the div
-            } else {
-                trackingNumberDiv.textContent = 'Tracking Number: Not available'; // Fallback if not found
+                trackingInput.value = trackingNumber;
+                trackingInfoDiv.textContent = `Tracking Number: ${trackingNumber}`;
+
+                // Example status check
+                const status = getTrackingStatus(trackingNumber);
+                if (status) {
+                    trackingStatusDiv.textContent = `Status: ${status.currentStatus}`;
+                    trackingStatusDetailsDiv.textContent = `Last updated: ${status.lastUpdated}`;
+                } else {
+                    trackingStatusDiv.textContent = 'Status: Unknown';
+                    trackingStatusDetailsDiv.textContent = '';
+                }
             }
+        }
+
+        // Function to handle tracking number submission
+        function submitTracking(event) {
+            event.preventDefault(); // Prevent default action if the input is empty
+            const trackingNumber = document.getElementById('trackingNumber').value;
+
+            // Check if the tracking number is provided
+            if (!trackingNumber) {
+                alert('Please enter a tracking number.'); // Alert if empty
+                return; // Exit the function
+            }
+
+            // Display tracking info if tracking number is provided
+            const trackingInfoDiv = document.getElementById('tracking-info');
+            const trackingStatusDiv = document.getElementById('tracking-status');
+            const trackingStatusDetailsDiv = document.getElementById('tracking-status-details');
+
+            trackingInfoDiv.textContent = `Tracking Number: ${trackingNumber}`;
+            const status = getTrackingStatus(trackingNumber);
+            if (status) {
+                trackingStatusDiv.textContent = `Status: ${status.currentStatus}`;
+                trackingStatusDetailsDiv.textContent = `Last updated: ${status.lastUpdated}`;
+            } else {
+                trackingStatusDiv.textContent = 'Status: Unknown';
+                trackingStatusDetailsDiv.textContent = '';
+            }
+        }
+
+        // Example function to get tracking status (mock data)
+        function getTrackingStatus(trackingNumber) {
+            // This is where you'd call your server or API to get real tracking data
+            // For now, this is just mock data
+            return {
+                currentStatus: 'In Transit',
+                lastUpdated: '2024-08-29 14:35'
+            };
         }
 
         // Call the function on page load
         window.onload = function() {
-            displayTrackingNumber();
+            displayTrackingInfo();
         };
-
     </script>
 </body>
 </html>
