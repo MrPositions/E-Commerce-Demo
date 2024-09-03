@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Sewn Elegance</title>
+    <title>Product Details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Add Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -77,7 +77,6 @@
             </div>
         </div>
     </header>
-
     <!-- Main Section -->
     <main class="container mt-4">
         <!-- Search Bar -->
@@ -87,24 +86,64 @@
                 <i class="fas fa-search"></i>
             </button>
         </div>
-        <h1 class="text-center mb-4">About Us</h1>
-        <p>Welcome to <strong>Sewn Elegance</strong>, where fashion meets artistry. We are a small business dedicated to creating high-quality clothing that embodies elegance and style. Our journey began with a passion for design and a desire to provide our customers with garments that not only look good but also feel good. Each piece is crafted with care, ensuring that our commitment to quality is evident in every stitch.</p>
 
-        <p>At Sewn Elegance, we take pride in our ability to blend contemporary trends with timeless classics, resulting in a collection that suits a variety of tastes and occasions. We believe that clothing should reflect individuality, and we strive to offer pieces that allow our customers to express themselves uniquely.</p>
+        <!-- Product Details Section -->
+        <div class="product-details row mt-4">
+            <div class="col-md-6">
+                <div class="product-image">
+                    <img src="images/GrannySquarePants1.png" alt="Product Name" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="product-description">
+                    <h1>Mittens</h1>
+                    <p>Detailed description of the product goes here. This section can include features, benefits, and any other relevant information.</p>
 
-        <p>We are dedicated to building meaningful relationships with our customers. Your support helps us grow and innovate while maintaining the personal touch that distinguishes us from larger retailers. Thank you for choosing Sewn Elegance. We look forward to being a part of your wardrobe and your journey in style!</p>
+                <!-- Product Options -->
+                <div class="product-options mt-4">
+                    <div class="styles mb-3">
+                        <h3>Styles</h3>
+                        <ul class="list-unstyled d-flex">
+                            <li class="mx-2 style-option-container">
+                                <img src="images/Mittens1.png" alt="Style 1" class="img-fluid style-option" data-style="style1">
+                            </li>
+                            <li class="mx-2 style-option-container">
+                                <img src="images/Mittens2.png" alt="Style 2" class="img-fluid style-option" data-style="style2">
+                            </li>
+                            <li class="mx-2 style-option-container">
+                                <img src="images/Mittens3.png" alt="Style 3" class="img-fluid style-option" data-style="style3">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Price Section -->
+                <span class="price d-block mb-3 product-price">$6.00</span>
+
+
+                    <!-- Buttons below Price -->
+                    <div class="product-buttons mt-4">
+                        <button class="btn btn-black btn-lg add-to-cart">Add to Cart</button>
+                        <button class="btn btn-gold btn-lg buy-now">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Cart Section -->
     <aside class="cart-section">
+        <!-- Cart Header -->
         <div class="cart-header">
             <h2>My Cart</h2>
         </div>
+        <!-- Cart Main Area -->
         <div class="cart-content">
             <ul id="cart-items" class="list-unstyled">
                 <!-- Cart items will be dynamically added here -->
             </ul>
         </div>
+        <!-- Cart Footer -->
         <div class="cart-footer">
             <div class="total-section">
                 <h3>Total: <span id="cart-total">$0.00</span></h3>
@@ -129,5 +168,48 @@
 
     <!-- Custom JavaScript -->
     <script src="functionality.js"></script>
+    <script>
+        document.querySelectorAll('.buy-now').forEach(button => {
+            button.addEventListener('click', () => {
+                // Retrieve product information
+                const productItem = button.closest('.product-details');
+                const productName = productItem.querySelector('h1').textContent;
+                const productImage = productItem.querySelector('.product-image img').src;
+                const productPrice = productItem.querySelector('.price').textContent;
+                const selectedColor = document.querySelector('.color-button.selected')?.getAttribute('data-color') || '';
+                const selectedStyleIndex = [...document.querySelectorAll('.style-option')].indexOf(document.querySelector('.styles li.selected .style-option')) + 1;
+                const styleIdentifier = selectedStyleIndex ? `-S${selectedStyleIndex}` : '';
+
+                // Create a product object to save
+                const selectedProductForCart = {
+                    name: productName + styleIdentifier,
+                    image: productImage,
+                    price: productPrice,
+                    color: selectedColor,
+                    quantity: 1
+                };
+
+                // Retrieve current cart items from localStorage
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+                // Check if the product already exists in the cart
+                const existingItemIndex = cartItems.findIndex(item => item.name === selectedProductForCart.name);
+
+                if (existingItemIndex > -1) {
+                    // If the item already exists in the cart, increase its quantity
+                    cartItems[existingItemIndex].quantity += 1;
+                } else {
+                    // If it's a new item, add it to the cart
+                    cartItems.push(selectedProductForCart);
+                }
+
+                // Save the updated cart items back to localStorage
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+                // Redirect to checkout page
+                window.location.href = 'checkout.html';
+            });
+        });
+    </script>
 </body>
 </html>

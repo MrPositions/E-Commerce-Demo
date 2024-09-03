@@ -90,9 +90,9 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-3 text-center text-md-left">
-                    <div class="logo">
+                    <a href="index.html" class="logo">
                         <img src="images/logo1.png" alt="Sewn Elegance Logo" class="img-fluid">
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-6 text-center">
                     <!-- Hidden Navigation on Mobile -->
@@ -154,6 +154,13 @@
     </header>
     <!-- Main Section -->
     <main class="container mt-4">
+        <!-- Search Bar -->
+        <div class="search-bar mb-4">
+            <input type="text" placeholder="Search..." aria-label="Search">
+            <button type="button" class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
         <!-- Contact Section -->
         <div class="container" id="contact">
             <h2>Contact Info</h2>
@@ -162,17 +169,18 @@
             </div>
             <p>At Sewn Elegance, we value open communication and are here to assist you with any inquiries you may have. Whether you have questions about our products, need assistance with your order, or wish to share your feedback, we would love to hear from you. Our dedicated team is committed to providing you with the best possible service, ensuring your experience with us is exceptional.</p>
             <form id="contact-form">
-                <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="name"></p>
-                <p><input class="w3-input w3-padding-16" type="email" placeholder="Email" required name="email"></p>
-                <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="subject"></p>
-                <p><textarea class="w3-input w3-padding-16" placeholder="Message" required name="message"></textarea></p>
+                <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="name" id="name"></p>
+                <p><input class="w3-input w3-padding-16" type="email" placeholder="Email" required name="email" id="email"></p>
+                <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="subject" id="subject"></p>
+                <p><textarea class="w3-input w3-padding-16" placeholder="Message" required name="message" id="message"></textarea></p>
                 <p>
                     <button id="submit-button" class="w3-button w3-light-grey w3-padding-large" type="submit">
                         <i class="fa fa-paper-plane"></i> SEND MESSAGE
                     </button>
                 </p>
             </form>
-        </div>
+            <!-- Add this line to display the response message -->
+            <p id="responseMessage"></p>
     </main>
 
     <!-- Cart Section -->
@@ -213,7 +221,7 @@
     <!-- Custom JavaScript -->
     <script src="functionality.js"></script>
 <script>
-document.getElementById('contactForm').addEventListener('submit', async function(event) {
+document.getElementById('contact-form').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the form from submitting the default way
 
     // Collect form data
@@ -250,7 +258,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
             submitButton.disabled = true;
 
             // Reset the form
-            document.getElementById('contactForm').reset();
+            document.getElementById('contact-form').reset();
 
             // Show success message
             document.getElementById('responseMessage').innerText = 'Email sent successfully!';
