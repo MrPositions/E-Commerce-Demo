@@ -167,11 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCartTotal();
     }
 
-// Function to update the cart total with tax and shipping
 function updateCartTotal() {
     let subtotal = 0;
-    const taxRate = 0.08; // Example tax rate of 8%
-    const shippingFee = 5.00; // Example flat shipping fee
 
     // Retrieve cart items from local storage
     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -182,21 +179,21 @@ function updateCartTotal() {
         subtotal += price * item.quantity; // Update subtotal based on item quantity
     });
 
-    // Calculate tax amount and total amount
-    const taxAmount = subtotal * taxRate;
-    const totalAmount = subtotal + taxAmount + shippingFee;
+    // Update the cart total in the footer
+    const cartTotalElement = document.getElementById('cart-total');
+    if (cartTotalElement) {
+        cartTotalElement.innerText = `$${subtotal.toFixed(2)}`; // Display only subtotal
+    }
 
-    // Display subtotal, tax, shipping fee, and total in the designated area
-    document.querySelector('.cart-total').innerHTML = `
-        <p>Subtotal: $${subtotal.toFixed(2)}</p>
-        <p>Tax: $${taxAmount.toFixed(2)}</p>
-        <p>Shipping: $${shippingFee.toFixed(2)}</p>
-        <p><strong>Total: $${totalAmount.toFixed(2)}</strong></p>
-    `;
-
-    // Update the total in the cart footer
-    document.getElementById('cart-total').innerText = `$${subtotal.toFixed(2)}`; // Update to show just subtotal
+    // Display subtotal in the designated area
+    const totalSection = document.querySelector('.total-section');
+    if (totalSection) {
+        totalSection.innerHTML = `
+            <p style="color: black; font-weight: bold; font-size: 1.5em;">Subtotal: $${subtotal.toFixed(2)}</p>
+        `;
+    }
 }
+
 
 
  function updateCartBadge() {
@@ -275,6 +272,20 @@ if (window.location.pathname.endsWith('orderconfirmation.html')) {
 updateCartDisplay();
 });
 
+document.getElementById('userIcon').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default anchor behavior
+    const dropdown = document.getElementById('userDropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+document.addEventListener('click', function(event) {
+    const icon = document.getElementById('userIcon');
+    const dropdown = document.getElementById('userDropdown');
+    if (!icon.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = 'none'; // Close the dropdown if clicked outside
+    }
+});
+
 
 // Handle search functionality
 const searchInput = document.querySelector('.search-bar input');
@@ -294,20 +305,6 @@ searchButton.addEventListener('click', executeSearch);
 searchInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         executeSearch();
-    }
-});
-
-document.getElementById('userIcon').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default anchor behavior
-    const dropdown = document.getElementById('userDropdown');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-});
-
-document.addEventListener('click', function(event) {
-    const icon = document.getElementById('userIcon');
-    const dropdown = document.getElementById('userDropdown');
-    if (!icon.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.style.display = 'none'; // Close the dropdown if clicked outside
     }
 });
 
