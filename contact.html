@@ -241,7 +241,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     const submitButton = document.getElementById('submit-button'); // Get the submit button
 
     try {
-        const response = await fetch('/send-email', {
+        const response = await fetch('https://e-commerce-demo-gamma.vercel.app/send-email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
