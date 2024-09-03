@@ -286,25 +286,66 @@ document.addEventListener('click', function(event) {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-bar input');
+    const searchButton = document.querySelector('.search-button');
 
-// Handle search functionality
-const searchInput = document.querySelector('.search-bar input');
-const searchButton = document.querySelector('.search-button');
+    // Ensure the container is available
+    const resultsContainer = document.querySelector('.search-results');
 
-function executeSearch() {
-    const searchQuery = searchInput.value.trim();
-    if (searchQuery) {
-        window.location.href = `search.html?query=${encodeURIComponent(searchQuery)}`;
+    // Ensure results container exists
+    if (!resultsContainer) {
+        console.error('Results container not found');
+        return; // Exit if the container does not exist
     }
-}
 
-// Add event listener for search button click
-searchButton.addEventListener('click', executeSearch);
+    function executeSearch() {
+        const searchQuery = searchInput.value.trim().toLowerCase();
 
-// Add event listener for Enter key press
-searchInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        executeSearch();
+        // Ensure products are available
+        if (!window.products || !Array.isArray(window.products)) {
+            console.error('Products array is not available.');
+            return;
+        }
+
+        if (searchQuery) {
+            // Filter products based on the search query
+            const filteredProducts = window.products.filter(product =>
+                product.name.toLowerCase().includes(searchQuery) ||
+                product.description.toLowerCase().includes(searchQuery) ||
+                product.category.toLowerCase().includes(searchQuery)
+            );
+
+            // Clear previous results
+            resultsContainer.innerHTML = '';
+
+            if (filteredProducts.length > 0) {
+                filteredProducts.forEach(product => {
+                    resultsContainer.innerHTML += `
+                        <div class="col-md-3 mb-4">
+                            <div class="product-item" data-category="${product.category}">
+                                <img src="${product.imgSrc}" alt="${product.name}" class="img-fluid">
+                                <h3>${product.name}</h3>
+                                <p>${product.description}</p>
+                                <span class="price">${product.price}</span>
+                                <button class="buy-button" onclick="window.location.href='${product.detailsUrl}'">Buy Now</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                resultsContainer.innerHTML = '<p class="text-center">No products found matching your search criteria.</p>';
+            }
+        }
     }
+
+    // Add event listeners for the search button and input
+    searchButton.addEventListener('click', executeSearch);
+    searchInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            executeSearch();
+        }
+    });
 });
+
 

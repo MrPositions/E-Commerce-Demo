@@ -415,57 +415,38 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="functionality.js"></script>
-    <script>
-    const categoryBoxes = document.querySelectorAll('.category-box');
-    const productItems = document.querySelectorAll('.product-item');
+<script src="products.js"></script>
+<script src="functionality.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load search results from localStorage
+        const searchResults = JSON.parse(localStorage.getItem('searchResults'));
+        console.log('Search results from localStorage:', searchResults); // Log the results
 
+        const searchResultsContainer = document.getElementById('search-results');
 
-    categoryBoxes.forEach(box => {
-            box.addEventListener('click', function(e) {
-                e.preventDefault();
+        if (searchResults && searchResults.length > 0) {
+            searchResults.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'col-md-3 mb-4';
 
-                // Remove the selected effect from all category boxes
-                categoryBoxes.forEach(box => {
-                    box.classList.remove('selected-category');
-                });
+                productItem.innerHTML = `
+                    <div class="product-item">
+                        <img src="${product.imgSrc}" alt="${product.name}" class="img-fluid">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <span class="price">${product.price}</span>
+                        <button class="buy-button" onclick="window.location.href='${product.detailsUrl}'">Buy Now</button>
+                    </div>
+                `;
 
-                // Add the selected effect to the clicked category box
-                this.classList.add('selected-category');
-
-                // Get the selected category
-                const category = this.querySelector('p').textContent.toLowerCase();
-
-                // Map categories to their respective tags
-                const categoryMap = {
-                    'headwear': ['hat', 'beanie', 'headwear'],
-                    'tops': ['top', 'shirt', 'sweater', 'jacket'],
-                    'legs': ['pants', 'leggings', 'shorts'],
-                    'handwear': ['gloves', 'mittens', 'handwear'],
-                    'scarves': ['scarf', 'muffler'],
-                    'swimwear': ['swimming trunks', 'bikini', 'swimwear'],
-                    'underwear': ['underwear', 'undergarments', 'briefs', 'boxers', 'bras', 'panties', 'lingerie', 'corset', 'vest'],
-                    'footwear': ['socks', 'slippers', 'shoes', 'footwear']
-                };
-
-                // Get the relevant tags for the selected category
-                const relevantTags = categoryMap[category];
-
-                // Show or hide product items based on category
-                productItems.forEach(item => {
-                    const itemCategory = item.getAttribute('data-category')?.toLowerCase(); // Using optional chaining to handle missing data-category attribute
-
-                    // Hide the item if it has no category or doesn't match the relevant tags
-                    if (!itemCategory || !relevantTags.includes(itemCategory)) {
-                        item.style.display = 'none';
-                    } else {
-                        item.style.display = 'block';
-                    }
-                });
+                searchResultsContainer.appendChild(productItem);
             });
-        });
-
-    </script>
+        } else {
+            searchResultsContainer.innerHTML = '<p class="text-center">No products found matching your search criteria.</p>';
+        }
+    });
+</script>
 
 </body>
 </html>

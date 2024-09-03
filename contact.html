@@ -221,62 +221,66 @@
     <!-- Custom JavaScript -->
     <script src="functionality.js"></script>
 <script>
-document.getElementById('contact-form').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Prevent the form from submitting the default way
-
-    // Collect form data
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const subject = document.getElementById('subject').value;
-    const message = document.getElementById('message').value;
-
-    // Create the payload for the POST request
-    const payload = {
-        name: name,
-        email: email,
-        subject: subject,
-        message: message
-    };
-
-    const submitButton = document.getElementById('submit-button'); // Get the submit button
-
-    try {
-        const response = await fetch('https://e-commerce-demo-gamma.vercel.app/send-email', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
+document.addEventListener("DOMContentLoaded", function() {
+            const currentPage = window.location.pathname.split("/").pop();
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
         });
 
-        const responseData = await response.text();
+  // New script for handling form submission and button feedback
+  document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById('contact-form');
+  const submitButton = document.getElementById('submit-button');
 
+  form.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message')
+    };
+
+    fetch('https://https://e-commerce-demo-gamma.vercel.app/send-email', { // Update with your actual endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        console.log(response);
+        const contentType = response.headers.get('content-type');
+        console.log(contentType);
         if (response.ok) {
-            // Change button icon and text to indicate success
+          console.log("made it to ok");
+          return response.text().then(text => {
+            console.log("Response is not JSON:", text);
+            // Update button text and style
             submitButton.innerHTML = '<i class="fa fa-check"></i> MESSAGE SENT';
-            // Optionally disable the button
-            submitButton.disabled = true;
 
-            // Reset the form
-            document.getElementById('contact-form').reset();
-
-            // Show success message
-            document.getElementById('responseMessage').innerText = 'Email sent successfully!';
-
-            // Reset button text and icon after 2.5 seconds
+            // Reset after 1.5 seconds
             setTimeout(() => {
-                submitButton.innerHTML = '<i class="fa fa-paper-plane"></i> SEND MESSAGE';
-                // Optionally enable the button again
-                submitButton.disabled = false;
-            }, 2500); // 2.5 seconds
+              submitButton.innerHTML = '<i class="fa fa-paper-plane"></i> SEND MESSAGE';
+              form.reset(); // Reset the form fields
+            }, 1500);
+          });
         } else {
-            // If there was an error sending the email
-            document.getElementById('responseMessage').innerText = responseData;
+          return response.text().then(errorData => {
+            throw new Error(`Server responded with error: ${errorData}`);
+          });
         }
-    } catch (error) {
+      })
+      .catch(error => {
         console.error('Error:', error);
-        document.getElementById('responseMessage').innerText = 'Something went wrong. Please try again later.';
-    }
+        alert(`There was an issue sending your message. Please try again. Error: ${error.message}`);
+      });
+  });
 });
 
 
