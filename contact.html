@@ -222,66 +222,66 @@
     <script src="functionality.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById('contact-form');
-    const submitButton = document.getElementById('submit-button');
-    const responseMessage = document.getElementById('responseMessage');
-
-    form.addEventListener('submit', async function(event) {
-        event.preventDefault(); // Prevent the form from submitting the default way
-
-        // Collect form data
-        const formData = new FormData(form);
-        const data = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            subject: formData.get('subject'),
-            message: formData.get('message')
-        };
-
-        try {
-            const response = await fetch('https://e-commerce-demo-phi-five.vercel.app/send-email', { // Update with your actual endpoint
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
+            const currentPage = window.location.pathname.split("/").pop();
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
             });
+        });
 
-            if (response.ok) {
-                const responseData = await response.text();
-                console.log("Response is not JSON:", responseData);
+  // New script for handling form submission and button feedback
+  document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById('contact-form');
+  const submitButton = document.getElementById('submit-button');
 
-                // Change button icon and text to indicate success
-                submitButton.innerHTML = '<i class="fa fa-check"></i> MESSAGE SENT';
-                submitButton.disabled = true; // Disable the button to prevent multiple submissions
+  form.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-                // Reset the form
-                form.reset();
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message')
+    };
 
-                // Show success message
-                responseMessage.innerText = 'Email sent successfully!';
-                responseMessage.style.color = 'green';
+    fetch('https://e-commerce-demo-phi-five.vercel.app/send-email', { // Update with your actual endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        console.log(response);
+        const contentType = response.headers.get('content-type');
+        console.log(contentType);
+        if (response.ok) {
+          console.log("made it to ok");
+          return response.text().then(text => {
+            console.log("Response is not JSON:", text);
+            // Update button text and style
+            submitButton.innerHTML = '<i class="fa fa-check"></i> MESSAGE SENT';
 
-                // Reset button text and icon after 2.5 seconds
-                setTimeout(() => {
-                    submitButton.innerHTML = '<i class="fa fa-paper-plane"></i> SEND MESSAGE';
-                    submitButton.disabled = false; // Enable the button again
-                    responseMessage.innerText = ''; // Clear the response message
-                }, 2500); // 2.5 seconds
-            } else {
-                const errorData = await response.text();
-                responseMessage.innerText = `Error: ${errorData}`;
-                responseMessage.style.color = 'red';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            responseMessage.innerText = 'Something went wrong. Please try again later.';
-            responseMessage.style.color = 'red';
+            // Reset after 1.5 seconds
+            setTimeout(() => {
+              submitButton.innerHTML = '<i class="fa fa-paper-plane"></i> SEND MESSAGE';
+              form.reset(); // Reset the form fields
+            }, 1500);
+          });
+        } else {
+          return response.text().then(errorData => {
+            throw new Error(`Server responded with error: ${errorData}`);
+          });
         }
-    });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert(`There was an issue sending your message. Please try again. Error: ${error.message}`);
+      });
+  });
 });
-
-
 
 </script>
 </body>

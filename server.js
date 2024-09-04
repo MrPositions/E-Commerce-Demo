@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const paypal = require('@paypal/checkout-server-sdk');
-const mongoose = require('mongoose'); // Import mongoose
+const Order = require('./db'); // Import the Order model from db.js
 require('dotenv').config();
 
 const app = express();
@@ -16,12 +16,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json()); // This line already exists in your previous snippets
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
 
 // Email transporter setup
 const transporter = nodemailer.createTransport({
@@ -71,17 +65,6 @@ async function handleContactFormSubmission({ name, email, subject, message }) {
 
     await sendEmail(autoReplyOptions);
 }
-
-// Order Schema
-const orderSchema = new mongoose.Schema({
-    orderId: { type: String, required: true },
-    trackingNumber: { type: String, required: true },
-    status: { type: String, required: true },
-    customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' } // Ensure customer_id is linked
-});
-
-// Order Model
-const Order = mongoose.model('Order', orderSchema);
 
 // Endpoint to handle contact form submission
 app.post('/api/send-email', async (req, res) => {
@@ -232,24 +215,21 @@ function generateOrderHtml(orderDetails, deliveryType, paymentMethod, status, tr
         <p>${orderDetails.summary}</p>
         ${deliveryType ? `<p><strong>Preferred Delivery Type:</strong> ${deliveryType}</p>` : ''}
         ${paymentMethod ? `<p><strong>Preferred Payment Method:</strong> ${paymentMethod}</p>` : ''}
+        <p><strong>Status:</strong> ${status}</p>
         <p><strong>Tracking Number:</strong> ${trackingNumber}</p>
-        <p style="color: ${status === 'PAID FOR ✔️' ? 'green' : 'black'}; font-weight: bold;">${status}</p>
     `;
 }
 
-// Function to calculate the total amount
+// Function to calculate total order amount
 function calculateTotalAmount(orderDetails) {
     let total = 0;
-    orderDetails.items.forEach(item => {
-        total += item.price * item.quantity;
+    orderDetails.forEach(item => {
+        total += item.price * item.quantity; // Calculate total amount
     });
-    // Add any additional fees such as taxes and shipping
-    const taxRate = 0.08; // Example tax rate of 8%
-    const shippingFee = 5.00; // Example flat shipping fee
-    return total + (total * taxRate) + shippingFee;
+    return total * 100; // Convert to cents for Stripe
 }
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
