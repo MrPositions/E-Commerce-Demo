@@ -3,89 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Sewn Elegance</title>
+    <title>Search - Sewn Elegance</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Atlantic+BC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Contact Section Styles */
-#contact {
-    padding: 40px 20px; /* Adjust padding for better fit */
-    color: #333; /* Dark text color for readability */
-    background-color: #FFFEF8; /* Light background color */
-    text-align: center;
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin-bottom: 10px; /* Space below the contact section */
-}
+            /* Custom Styles for Product Cards */
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem; /* Space between cards */
+    }
 
-#contact h2 {
-    font-size: 2.5em; /* Larger heading */
-    margin-bottom: 15px; /* Space below the heading */
-    color: #A97848; /* Rustic Copper color for the heading */
-}
+    /* Individual Product Item */
+    .product-item {
+        border: 1px solid #ddd; /* Border color */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        overflow: hidden; /* Ensure content stays within the card */
+        background-color: #fff; /* Card background color */
+        transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+        text-align: center; /* Center text inside the card */
+        display: flex;
+        flex-direction: column; /* Stack child elements vertically */
+        justify-content: space-between; /* Space out the content */
+    }
 
-#contact .w3-section p {
-    color: #555; /* Slightly darker gray for the text */
-    font-size: 1.1em; /* Standard font size */
-    margin-bottom: 10px; /* Space between paragraphs */
-}
+    .product-item:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+        transform: translateY(-5px); /* Slight lift effect on hover */
+    }
 
-#contact form p {
-    margin-bottom: 15px; /* Space between form elements */
-}
+    .product-item img {
+        width: 100%; /* Ensure the image fits the card width */
+        height: auto; /* Maintain aspect ratio */
+        max-height: 180px; /* Limit the image height */
+        object-fit: cover; /* Cover the image area */
+    }
 
-#contact .w3-input {
-    width: calc(100% - 20px); /* Full-width input fields with padding adjustment */
-    padding: 12px 15px; /* Padding for input fields */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 5px; /* Rounded corners for input fields */
-    transition: border 0.3s; /* Smooth border transition */
-}
+    .product-item h3 {
+        font-size: 1.2rem; /* Adjust font size for title */
+        margin: 0.5rem 0; /* Margin for spacing */
+    }
 
-#contact .w3-input:focus {
-    border-color: #A97848; /* Change border color on focus */
-    outline: none; /* Remove outline */
-}
+    .product-item p {
+        font-size: 0.9rem; /* Adjust font size for description */
+        color: #555; /* Slightly darker text color */
+        margin-bottom: 0.5rem; /* Space between text elements */
+    }
 
-#contact .w3-button {
-    background-color: #A97848; /* Rustic Copper color for button */
-    color: #fff; /* White text color */
-    border: none; /* No border */
-    font-size: 1.2em; /* Button font size */
-    padding: 12px 20px; /* Padding for the button */
-    border-radius: 5px; /* Rounded corners for button */
+    .product-item .price {
+        font-size: 1.1rem; /* Adjust font size for price */
+        font-weight: bold; /* Make the price stand out */
+        color: #333; /* Darker color for better readability */
+        margin: 0.5rem 0; /* Margin for spacing */
+    }
+
+    /* Individual Product Item */
+.product-item .buy-button {
+    display: inline-block; /* Make it behave like a button */
+    width: 100%; /* Make button full width */
+    padding: 0.5rem; /* Padding for better click area */
+    border: none; /* Remove default button border */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #A97848; /* Primary color */
+    color: #fff; /* Button text color */
+    text-align: center; /* Center text inside the button */
     cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s, transform 0.3s; /* Smooth transitions */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+    text-decoration: none; /* Remove underline from links */
 }
 
-#contact .w3-button:hover {
-    background-color: #A9815E; /* Warm Sandstone color on hover */
-    transform: translateY(-2px); /* Slight lift effect on hover */
+/* Button hover state */
+.product-item .buy-button:hover {
+    background-color: #A9815E; /* Darker shade on hover */
 }
 
-/* Mobile Adjustments */
-@media (max-width: 767px) {
-    #contact h2 {
-        font-size: 2.2em; /* Slightly smaller heading */
-    }
-
-    #contact .w3-input {
-        font-size: 1em; /* Standard input font size */
-        padding: 10px; /* Adjust padding for mobile */
-    }
-
-    #contact .w3-button {
-        font-size: 1em; /* Standard button font size */
-        padding: 10px 15px; /* Adjust padding for mobile */
-    }
+/* Active state to keep the button color when clicked */
+.product-item .buy-button:active {
+    background-color: #A97848; /* Keep it rustic copper on click */
+    box-shadow: none; /* Remove any default box-shadow */
 }
 
+/* Prevent default blue color in certain browsers */
+.product-item .buy-button:focus {
+    background-color: #A97848; /* Maintain rustic copper on focus */
+    outline: none; /* Remove outline when button is focused */
+}
+
+/* Additional styles for anchor tag */
+.product-item .buy-button:link,
+.product-item .buy-button:visited {
+    background-color: #A97848; /* Maintain rustic copper when link is clicked or visited */
+    color: #fff; /* Button text color */
+    outline: none; /* Prevent blue outline */
+}
+
+.product-item .buy-button:focus {
+    outline: none; /* Remove outline when button is focused */
+}
+
+
+    /* Custom Styles for Categories */
+.categories-section {
+    margin-bottom: 2rem;
+}
+
+.categories-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.category-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.category-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Text color */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-box:hover {
+    background-color: #f8f9fa; /* Light background on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.category-box i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+.category-icon {
+    width: 60px; /* Adjust this value based on your icon size */
+    height: auto;
+    max-width: 100%;
+    max-height: 60px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.selected-category {
+    border: 2px solid black; /* Adds a black border when the category is selected */
+}
+
+
+.category-box p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+        .category-box:hover p {
+    text-decoration: underline;
+    text-decoration-color: black; /* Make the underline black on hover */
+}
     </style>
 </head>
 <body>
-    <!-- Header Section -->
+<!-- Header Section -->
 <header class="header">
     <div class="container">
         <div class="row align-items-center">
@@ -173,41 +265,27 @@
                 <i class="fas fa-search"></i>
             </button>
         </div>
-        <!-- Contact Section -->
-        <div class="container" id="contact">
-            <h2>Contact Info</h2>
-            <div class="w3-section">
-                <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Email: sewnelegance@gmail.com</p>
+
+        <!-- Search Results Section -->
+        <section>
+            <h2 class="text-center">Search Results</h2>
+            <div id="search-results" class="search-results row mt-4"></div>
+
+                <!-- Search results will be dynamically inserted here -->
             </div>
-            <p>At Sewn Elegance, we value open communication and are here to assist you with any inquiries you may have. Whether you have questions about our products, need assistance with your order, or wish to share your feedback, we would love to hear from you. Our dedicated team is committed to providing you with the best possible service, ensuring your experience with us is exceptional.</p>
-            <form id="contact-form">
-                <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="name"></p>
-                <p><input class="w3-input w3-padding-16" type="email" placeholder="Email" required name="email"></p>
-                <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="subject"></p>
-                <p><textarea class="w3-input w3-padding-16" placeholder="Message" required name="message"></textarea></p>
-                <p>
-                    <button id="submit-button" class="w3-button w3-light-grey w3-padding-large" type="submit">
-                        <i class="fa fa-paper-plane"></i> SEND MESSAGE
-                    </button>
-                </p>
-            </form>
-            <!-- Add this line to display the response message -->
-            <p id="responseMessage"></p>
+        </section>
     </main>
 
     <!-- Cart Section -->
     <aside class="cart-section">
-        <!-- Cart Header -->
         <div class="cart-header">
             <h2>My Cart</h2>
         </div>
-        <!-- Cart Main Area -->
         <div class="cart-content">
             <ul id="cart-items" class="list-unstyled">
                 <!-- Cart items will be dynamically added here -->
             </ul>
         </div>
-        <!-- Cart Footer -->
         <div class="cart-footer">
             <div class="total-section">
                 <h3>Total: <span id="cart-total">$0.00</span></h3>
@@ -231,70 +309,36 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Custom JavaScript -->
+    <script src="products.js"></script>
     <script src="functionality.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-            const currentPage = window.location.pathname.split("/").pop();
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('href') === currentPage) {
-                    link.classList.add('active');
-                }
-            });
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const searchResultsContainer = document.getElementById('search-results');
+
+    const searchResults = JSON.parse(localStorage.getItem('searchResults'));
+
+    if (searchResults && searchResults.length > 0) {
+        searchResults.forEach(product => {
+            const productItem = document.createElement('div');
+            productItem.className = 'col-md-3 mb-4';
+
+            productItem.innerHTML = `
+                <div class="product-item">
+                    <img src="${product.imgSrc}" alt="${product.name}" class="img-fluid">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <span class="price">${product.price}</span>
+                    <button class="buy-button" onclick="window.location.href='${product.detailsUrl}'">Buy Now</button>
+                </div>
+            `;
+
+            searchResultsContainer.appendChild(productItem);
         });
-
-  // New script for handling form submission and button feedback
-  document.addEventListener("DOMContentLoaded", function() {
-  const form = document.getElementById('contact-form');
-  const submitButton = document.getElementById('submit-button');
-
-  form.addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    const formData = new FormData(form);
-    const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      subject: formData.get('subject'),
-      message: formData.get('message')
-    };
-
-    fetch('https://e-commerce-demo-phi-five.vercel.app/send-email', { // Update with your actual endpoint
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => {
-        console.log(response);
-        const contentType = response.headers.get('content-type');
-        console.log(contentType);
-        if (response.ok) {
-          console.log("made it to ok");
-          return response.text().then(text => {
-            console.log("Response is not JSON:", text);
-            // Update button text and style
-            submitButton.innerHTML = '<i class="fa fa-check"></i> MESSAGE SENT';
-
-            // Reset after 1.5 seconds
-            setTimeout(() => {
-              submitButton.innerHTML = '<i class="fa fa-paper-plane"></i> SEND MESSAGE';
-              form.reset(); // Reset the form fields
-            }, 1500);
-          });
-        } else {
-          return response.text().then(errorData => {
-            throw new Error(`Server responded with error: ${errorData}`);
-          });
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert(`There was an issue sending your message. Please try again. Error: ${error.message}`);
-      });
-  });
+    } else {
+        searchResultsContainer.innerHTML = '<p class="text-center">No products found matching your search criteria.</p>';
+    }
 });
 
-</script>
+    </script>
 </body>
 </html>

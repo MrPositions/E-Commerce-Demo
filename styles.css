@@ -80,40 +80,45 @@ body {
 @media (min-width: 768px) {
     .header .header-icons .cart-badge {
         position: absolute;
-        top: -8px;
-        right: -10px;
+        top: -10px; /* Adjust the badge position to be closer to the icon */
+        right: -10px; /* Adjusted to align with the right edge of the icon */
         background-color: red; /* Badge background color */
         color: white; /* Badge text color */
         border-radius: 50%;
-        width: 20px;
-        height: 20px;
+        width: 22px; /* Badge width */
+        height: 22px; /* Badge height */
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 12px; /* Larger font size for PC */
         font-weight: bold;
+        border: 2px solid white; /* Optional: white border to match the mobile badge style */
     }
 }
 
 
 #mobile-cart-icon {
     position: relative; /* Ensures the badge positions relative to the icon */
+    font-size: 2.5rem; /* Icon size */
+    width: 50px; /* Icon width */
+    height: 50px; /* Icon height */
 }
 
 #mobile-cart-badge {
     position: absolute;
-    top: -14px; /* Adjusted to place the badge closer to the top */
-    right: -8px; /* Adjusted to place the badge closer to the right */
+    top: 2px; /* Places the badge slightly above the top edge of the icon */
+    right: -8px; /* Places the badge slightly to the right of the icon's edge */
     background-color: red; /* Badge background color */
     color: white; /* Badge text color */
     border-radius: 50%;
-    width: 15px; /* Smaller width to fit better */
-    height: 15px; /* Smaller height to fit better */
+    width: 18px; /* Badge width */
+    height: 18px; /* Badge height */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px; /* Smaller font size for better fit */
+    font-size: 12px; /* Font size for the badge text */
     font-weight: bold;
+    border: 2px solid white; /* Optional: white border to make the badge stand out more */
 }
 
 
@@ -563,18 +568,35 @@ body {
         margin: 0;
     }
 
-    header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
+   .header {
+        background-color: #fff; /* Adjust background color as needed */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1000; /* Ensure the header is above other content */
     }
 
-    /* Center the Logo */
-    .logo {
-        margin: 0 auto;
-        display: block;
+    .fixed-top {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 10px 0; /* Adjust padding as needed */
     }
+
+    .hamburger-icon {
+        font-size: 1.7rem; /* Adjust hamburger icon size */
+        cursor: pointer;
+        display: inline-block;
+         position: relative;
+         left: -15px;
+    }
+}
+    /* CSS to hide the large logo on mobile */
+        @media (max-width: 767.98px) {
+            .logo.d-none.d-md-block {
+                display: none; /* Hide logo on mobile */
+            }
+        }
+
 
     /* Hide Navigation and Icons on Mobile */
     .nav {
@@ -585,17 +607,6 @@ body {
         display: none; /* Hide icons */
     }
 
-    /* Hamburger Menu */
-.hamburger-menu {
-    margin: 10px 0;
-    position: relative;
-}
-
-/* Hamburger Icon */
-.hamburger-icon {
-    cursor: pointer;
-    font-size: 24px; /* Adjust font size for better visibility */
-}
 
 /* Mobile Menu Content */
 .mobile-menu {
