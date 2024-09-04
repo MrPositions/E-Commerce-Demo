@@ -2,16 +2,20 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const paypal = require('@paypal/checkout-server-sdk');
 const mongoose = require('mongoose'); // Import mongoose
+require('dotenv').config();
+
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Import models
-const Customer = require('./models/Customer');
-const Order = require('./models/Order'); // Ensure this is defined correctly
-
-app.use(express.json());
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
+app.use(express.json()); // This line already exists in your previous snippets
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
@@ -19,18 +23,7 @@ mongoose.connect(process.env.MONGODB_URI, {
     useUnifiedTopology: true
 });
 
-// Order Schema
-const orderSchema = new mongoose.Schema({
-    orderId: { type: String, required: true },
-    trackingNumber: { type: String, required: true },
-    status: { type: String, required: true },
-    customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' } // Ensure customer_id is linked
-});
-
-// Order Model
-const Order = mongoose.model('Order', orderSchema);
-
-// Configure Nodemailer
+// Email transporter setup
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -44,10 +37,64 @@ async function sendEmail({ from, to, subject, html }) {
     const mailOptions = { from, to, subject, html };
     try {
         await transporter.sendMail(mailOptions);
+        console.log(`Email sent from ${from} to ${to}`);
     } catch (error) {
         console.error('Error sending email:', error.message);
+        throw error; // Rethrow error for further handling
     }
 }
+
+// Handle Contact Form Submission
+async function handleContactFormSubmission({ name, email, subject, message }) {
+    const mailOptions = {
+        from: email,
+        to: process.env.EMAIL_USER, // Your email address
+        subject: `New message from ${name}: ${subject}`,
+        html: `
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Message:</strong></p>
+            <p>${message}</p>
+        `
+    };
+
+    // Send email to yourself
+    await sendEmail(mailOptions);
+
+    // Optionally, you could send an auto-reply here
+    const autoReplyOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Thank you for your message',
+        html: '<p>Thank you for contacting us. Your message has been received and will be reviewed promptly.</p>'
+    };
+
+    await sendEmail(autoReplyOptions);
+}
+
+// Order Schema
+const orderSchema = new mongoose.Schema({
+    orderId: { type: String, required: true },
+    trackingNumber: { type: String, required: true },
+    status: { type: String, required: true },
+    customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' } // Ensure customer_id is linked
+});
+
+// Order Model
+const Order = mongoose.model('Order', orderSchema);
+
+// Endpoint to handle contact form submission
+app.post('/api/send-email', async (req, res) => {
+    const { name, email, subject, message } = req.body;
+
+    try {
+        await handleContactFormSubmission({ name, email, subject, message });
+        res.status(200).send('Email sent successfully.');
+    } catch (error) {
+        console.error('Error handling form submission:', error);
+        res.status(500).send('Failed to send email.');
+    }
+});
 
 // Endpoint to get all orders
 app.get('/api/orders', async (req, res) => {
@@ -199,38 +246,10 @@ function calculateTotalAmount(orderDetails) {
     // Add any additional fees such as taxes and shipping
     const taxRate = 0.08; // Example tax rate of 8%
     const shippingFee = 5.00; // Example flat shipping fee
-    total += total * taxRate + shippingFee;
-    return total;
+    return total + (total * taxRate) + shippingFee;
 }
 
-// Handle Contact Form Submission
-app.post('/send-email', (req, res) => {
-    const { name, email, subject, message } = req.body;
-
-    const mailOptions = {
-        from: email,
-        to: process.env.EMAIL_USER,
-        subject: `Contact Form Submission: ${subject}`,
-        html: `
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Message:</strong></p>
-            <p>${message}</p>
-        `
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error('Error sending email:', error.message);
-            return res.status(500).send('Something went wrong. Please try again later.');
-        }
-        res.status(200).send('Email sent successfully!');
-    });
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
-
-// Import and integrate router for previous orders
-const previousOrdersRouter = require('./routes/previousOrders'); // Ensure the path is correct
-app.use(previousOrdersRouter); // Use the router
-
-// Start the Express server
-app.listen(3000, () => console.log('Server running on port 3000'));
