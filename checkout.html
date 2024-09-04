@@ -618,7 +618,7 @@ document.getElementById('back-arrow').addEventListener('click', handleBackArrowC
 
 // Function to handle PayPal payment processing
 function processPayPalPayment() {
-    fetch('https://e-commerce-demo-jet.vercel.app/create-paypal-transaction', {
+    fetch('https://e-commerce-demo-mu.vercel.app/create-paypal-transaction', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -692,7 +692,7 @@ document.getElementById('credit-card-form').addEventListener('submit', function 
     const deliveryType = selectedDeliveryMethod; // 'delivery' or 'pickup'
     const paymentMethod = selectedPaymentMethod; // 'credit-card', 'paypal', or 'cod'
 
-    fetch('https://e-commerce-demo-jet.vercel.app/create-payment-intent', {
+    fetch('https://e-commerce-demo-mu.vercel.app/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ paymentMethodId, email, orderDetails, deliveryType, paymentMethod })
@@ -723,7 +723,7 @@ document.getElementById('credit-card-form').addEventListener('submit', function 
 
 // Function to process Cash on Delivery payment
 function processCODPayment() {
-    fetch('https://e-commerce-demo-jet.vercel.app/create-payment-intent', {
+    fetch('https://e-commerce-demo-mu.vercel.app/create-payment-intent', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
