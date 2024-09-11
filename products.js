@@ -78,6 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Map categories to their respective tags
             const categoryMap = {
+                'all': [
+                    'hat', 'beanie', 'headwear',
+                    'top', 'shirt', 'sweater', 'jacket',
+                    'pants', 'leggings', 'shorts',
+                    'gloves', 'mittens', 'handwear',
+                    'scarf', 'muffler',
+                    'swimming trunks', 'bikini', 'swimwear',
+                    'underwear', 'undergarments', 'briefs',
+                    'boxers', 'bras', 'panties', 'lingerie',
+                    'corset', 'vest',
+                    'socks', 'slippers', 'shoes', 'footwear'
+                ],
                 'headwear': ['hat', 'beanie', 'headwear'],
                 'tops': ['top', 'shirt', 'sweater', 'jacket'],
                 'legs': ['pants', 'leggings', 'shorts'],
@@ -99,6 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to filter products by category
     function filterProductsByCategory(category) {
         const categoryMap = {
+            'all': [
+                'hat', 'beanie', 'headwear',
+                'top', 'shirt', 'sweater', 'jacket',
+                'pants', 'leggings', 'shorts',
+                'gloves', 'mittens', 'handwear',
+                'scarf', 'muffler',
+                'swimming trunks', 'bikini', 'swimwear',
+                'underwear', 'undergarments', 'briefs',
+                'boxers', 'bras', 'panties', 'lingerie',
+                'corset', 'vest',
+                'socks', 'slippers', 'shoes', 'footwear'
+            ],
             'headwear': ['hat', 'beanie', 'headwear'],
             'tops': ['top', 'shirt', 'sweater', 'jacket'],
             'legs': ['pants', 'leggings', 'shorts'],
@@ -120,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function filterProductsByTags(relevantTags) {
         productItems.forEach(item => {
             const itemCategory = item.getAttribute('data-category')?.toLowerCase();
-                        if (!itemCategory || !relevantTags.includes(itemCategory)) {
+            if (!itemCategory || !relevantTags.includes(itemCategory)) {
                 item.style.display = 'none'; // Hide the product if it doesn't match the relevant tags
             } else {
                 item.style.display = 'block'; // Show the product if it matches
@@ -146,4 +170,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
-

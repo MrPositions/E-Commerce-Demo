@@ -98,13 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCartBadge();
 
             // Open cart and scroll it into view
-            const cartSection = document.querySelector('.cart-section');
-            if (cartSection) {
-                cartSection.classList.add('open');
-                setTimeout(() => {
-                    cartSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }, 300);
-            }
+            // const cartSection = document.querySelector('.cart-section');
+            // if (cartSection) {
+            //    cartSection.classList.add('open');
+            //    setTimeout(() => {
+            //        cartSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            //    }, 300);
+          //  }
         });
     });
 
